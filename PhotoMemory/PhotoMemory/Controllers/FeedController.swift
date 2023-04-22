@@ -17,17 +17,14 @@ class FeedController: UICollectionViewController {
     
     let memoManager = CoreDataManager.shared
     
-    var memoData: MemoData? {
-        didSet {
-            //
-        }
-    }
+   
+    
     
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         configureUI()
         setupNaviBar()
     }
@@ -70,12 +67,16 @@ class FeedController: UICollectionViewController {
 extension FeedController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return  memoManager.getMemoListFromCoreData().count
+        // return 20
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)  as! FeedCell // 🔴
-        // cell.backgroundColor = .red // 🔴
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)  as! FeedCell
+        
+        // 셀에 모델(MemoData) 전달
+        let memoData = memoManager.getMemoListFromCoreData()
+        cell.memoData?.photo = memoData[indexPath.row].photo
         
         return cell
     }
