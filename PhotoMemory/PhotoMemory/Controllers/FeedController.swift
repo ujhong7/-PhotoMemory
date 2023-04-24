@@ -120,10 +120,7 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         let current = memoManager.getMemoListFromCoreData()[indexPath.row]
         controller.memoData = current
         
-        
         navigationController?.pushViewController(controller, animated: true)
-        
-        
         
         print("DEBUG: didSelectItemAt")
     }

@@ -9,18 +9,11 @@ import UIKit
 
 class FeedCell: UICollectionViewCell {
     
-    
-    
     var memoData: MemoData?  {
         didSet {
             configureUIwithData()
         }
     }
-    
-    // (델리게이트 대신에) 실행하고 싶은 클로저 저장
-    // 뷰컨트롤러에 있는 클로저 저장할 예정 (셀(자신)을 전달)
-//    var updateButtonPressed: (FeedCell) -> Void = { (sender) in }
-    
     
     // MARK: - properties
     
@@ -33,21 +26,14 @@ class FeedCell: UICollectionViewCell {
     }()
     
     
-    
     // MARK: - LifeCycle
     
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        
-        
         
         // backgroundColor = .red
         backgroundView = cellImageView
        
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -55,8 +41,6 @@ class FeedCell: UICollectionViewCell {
     }
     
     func configureUIwithData() {
-        
-        
         
     }
     

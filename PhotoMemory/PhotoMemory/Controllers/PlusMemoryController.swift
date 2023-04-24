@@ -73,6 +73,8 @@ class PlusMemoryController: UITableViewController {
             // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
             memoData.text = memoTextView.text
             memoData.photo = plusButtonImage?.pngData() // 🔴
+            memoData.photo = plusPhotoButton.self
+            // memoData.photo = plusPhotoButton. // 🔵
             
              memoManager.updateToDo(newToDoData: memoData) {
                 print("업데이트 완료")
@@ -231,7 +233,7 @@ extension PlusMemoryController:  UIImagePickerControllerDelegate , UINavigationC
     // 사진 넣기 설정
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
-        plusButtonImage = selectedImage // 🔴 ?????????? 머냐
+        // plusButtonImage = selectedImage // 🔴 ?????????? 머냐
         
         
 
