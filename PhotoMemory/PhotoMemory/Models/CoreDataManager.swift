@@ -54,7 +54,8 @@ final class CoreDataManager {
     
     
     // MARK: - [Create] 코어데이터에 데이터 생성하기
-    func saveMemoData(memoText: String?, memoPhoto: Data, completion: @escaping () -> Void) {
+    
+    func saveMemoData(memoText: String?, memoPhoto: Data, completion: @escaping (Bool) -> Void) {
         // 임시저장소 있는지 확인
         if let context = context {
             // 임시저장소에 있는 데이터를 그려줄 형태 파악하기
@@ -74,16 +75,15 @@ final class CoreDataManager {
                     if context.hasChanges {
                         do {
                             try context.save()
-                            completion()
+                            completion(true)
                         } catch {
                             print(error)
-                            completion()
+                            completion(false)
                         }
                     }
                 }
             }
         }
-        completion()
     }
     
     

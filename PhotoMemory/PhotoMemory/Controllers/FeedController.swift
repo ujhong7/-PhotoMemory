@@ -89,8 +89,7 @@ extension FeedController {
         // 셀에 모델(MemoData) 전달
         let memoData = memoManager.getMemoListFromCoreData()
         cell.memoData = memoData[indexPath.row]
-        
-        
+        cell.backgroundView = UIImageView(image: UIImage(data: memoData[indexPath.row].photo!)!)
         return cell
     }
     
@@ -115,14 +114,23 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     
     // 셀 선택
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = PlusMemoryController()
-      
+//        let controller = PlusMemoryController()
+//
         let current = memoManager.getMemoListFromCoreData()[indexPath.row]
-        controller.memoData = current
+//        controller.memoData = current
+//
+//        navigationController?.pushViewController(controller, animated: true)
+//
+//        print("DEBUG: didSelectItemAt")
         
-        navigationController?.pushViewController(controller, animated: true)
         
-        print("DEBUG: didSelectItemAt")
+        
+        // TODO: - DetailViewController 띄우기
+        let detailViewController = DetailViewController(memo: current)
+        //⭐️찾아보기⭐️
+        //self.navigationController?.modalTransitionStyle
+        //self.navigationController?.modalPresentationStyle
+        self.navigationController?.present(detailViewController, animated: true)
     }
     
     

@@ -16,13 +16,10 @@ class FeedCell: UICollectionViewCell {
     }
     
     // MARK: - properties
-    
     private let cellImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "venom-7")
-        
-        
-        return iv
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "venom-7")
+        return imageView
     }()
     
     
@@ -30,10 +27,8 @@ class FeedCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         // backgroundColor = .red
-        backgroundView = cellImageView
-       
+        //backgroundView = cellImageView
     }
     
     required init?(coder: NSCoder) {
@@ -41,6 +36,7 @@ class FeedCell: UICollectionViewCell {
     }
     
     func configureUIwithData() {
+//        cellImageView.image = UIImage(data: (memoData?.photo)!)!
         
     }
     

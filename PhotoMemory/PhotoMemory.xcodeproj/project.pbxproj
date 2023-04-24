@@ -23,6 +23,7 @@
 		1D39994229F0FF75007BC059 /* PlusMemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39994129F0FF75007BC059 /* PlusMemoryView.swift */; };
 		1D39994429F105FE007BC059 /* PlusMemoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39994329F105FE007BC059 /* PlusMemoryController.swift */; };
 		1DDBD8C929F187FD00240906 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBD8C829F187FD00240906 /* CoreDataManager.swift */; };
+		BE58A9DF29F6A8D20081A0EA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE58A9DE29F6A8D20081A0EA /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		1D39994129F0FF75007BC059 /* PlusMemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMemoryView.swift; sourceTree = "<group>"; };
 		1D39994329F105FE007BC059 /* PlusMemoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMemoryController.swift; sourceTree = "<group>"; };
 		1DDBD8C829F187FD00240906 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		BE58A9DE29F6A8D20081A0EA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				1D39993929F0E50B007BC059 /* MainTabController.swift */,
 				1D39993129F0CFB2007BC059 /* FeedController.swift */,
 				1D39994329F105FE007BC059 /* PlusMemoryController.swift */,
+				BE58A9DE29F6A8D20081A0EA /* DetailViewController.swift */,
 				1D39993F29F0E66B007BC059 /* secondController.swift */,
 				1D39993B29F0E5D1007BC059 /* thirdController.swift */,
 				1D39993D29F0E5E0007BC059 /* fourthController.swift */,
@@ -213,6 +216,7 @@
 				1D39993729F0D07E007BC059 /* FeedCell.swift in Sources */,
 				1D39994429F105FE007BC059 /* PlusMemoryController.swift in Sources */,
 				1D39993C29F0E5D1007BC059 /* thirdController.swift in Sources */,
+				BE58A9DF29F6A8D20081A0EA /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
