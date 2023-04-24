@@ -22,9 +22,9 @@ class PlusMemoryController: UITableViewController {
     
     // MARK: - Properties
     
-    private var plusButtonImage: UIImage? // 🔴
+    private var plusButtonImage: UIImage? // 
     
-    private let plusPhotoButton: UIButton = { // 🔵
+    private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .lightGray
         button.setImage(#imageLiteral(resourceName: "plus_photo"), for: .normal)
@@ -72,9 +72,8 @@ class PlusMemoryController: UITableViewController {
             
             // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
             memoData.text = memoTextView.text
-            memoData.photo = plusButtonImage?.pngData() // 🔴
-            memoData.photo = plusPhotoButton.self
-            // memoData.photo = plusPhotoButton. // 🔵
+            memoData.photo = plusButtonImage?.pngData()
+            
             
              memoManager.updateToDo(newToDoData: memoData) {
                 print("업데이트 완료")
@@ -85,7 +84,7 @@ class PlusMemoryController: UITableViewController {
         // 기존데이터가 없을때 ===> 새로운 데이터 생성
         } else {
             let memoText = memoTextView.text
-            guard let plusButtonImgae = plusButtonImage?.pngData() else { return print("이미지 없음")} // 🔴
+            guard let plusButtonImgae = plusButtonImage?.pngData() else { return print("이미지 없음")}
             
             memoManager.saveMemoData(memoText: memoText, memoPhoto: plusButtonImgae) {
                 print("저장완료👍")
@@ -137,7 +136,7 @@ class PlusMemoryController: UITableViewController {
     func setContraints() {
         
         
-        view.addSubview(plusPhotoButton) // 🔵
+        view.addSubview(plusPhotoButton)
         NSLayoutConstraint.activate([
             plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             plusPhotoButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
@@ -233,11 +232,11 @@ extension PlusMemoryController:  UIImagePickerControllerDelegate , UINavigationC
     // 사진 넣기 설정
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
-        // plusButtonImage = selectedImage // 🔴 ?????????? 머냐
+        plusButtonImage = selectedImage
         
         
 
-        plusPhotoButton.layer.masksToBounds = true // 🔵
+        plusPhotoButton.layer.masksToBounds = true
         plusPhotoButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
         
         self.dismiss(animated: true, completion: nil)
