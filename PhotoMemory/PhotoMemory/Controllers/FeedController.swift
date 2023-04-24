@@ -7,7 +7,7 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell" // ⭐️
+private let reuseIdentifier = "FeedCell" // ⭐️
 
 class FeedController: UICollectionViewController {
     
@@ -29,10 +29,22 @@ class FeedController: UICollectionViewController {
         setupNaviBar()
     }
     
+    // 델리게이트가 아닌 방식으로 구현할때는 화면 리프레시⭐️
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 뷰가 다시 나타날때, 테이블뷰를 리로드
+        collectionView.reloadData()
+    }
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
     // MARK: - Helpers
     
     func configureUI() {
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .gray
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier) // ⭐️
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier) // 🔴
     }
@@ -50,7 +62,7 @@ class FeedController: UICollectionViewController {
     
     // MARK: - Actions
 
-    // 추가하기 버튼 ⭐️
+    // 추가하기 버튼
     @objc func plusButtonTapped() {
         let controller = PlusMemoryController()
         navigationController?.pushViewController(controller, animated: true)
@@ -68,15 +80,16 @@ extension FeedController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return  memoManager.getMemoListFromCoreData().count
-        // return 20
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)  as! FeedCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
+        //cell.backgroundColor = .blue
         
         // 셀에 모델(MemoData) 전달
         let memoData = memoManager.getMemoListFromCoreData()
-        cell.memoData?.photo = memoData[indexPath.row].photo
+        cell.memoData = memoData[indexPath.row]
+        
         
         return cell
     }
@@ -100,11 +113,25 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
             return 1
         }
     
+    // 셀 선택
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let controller = PlusMemoryController()
+      
+        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
+        controller.memoData = current
+        
+        
         navigationController?.pushViewController(controller, animated: true)
+        
+        
+        
         print("DEBUG: didSelectItemAt")
     }
+    
+    
+    
+
+    
         
 }
     
