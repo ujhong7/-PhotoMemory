@@ -17,9 +17,9 @@ class DetailViewController: UIViewController {
         self.memo = memo
     }
     
-    private let fullImage = UIImageView() {
-        let image =
-    }
+//    private let fullImage = UIImageView() {
+//        let image =
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

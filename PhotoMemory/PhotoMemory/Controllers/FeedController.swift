@@ -17,9 +17,6 @@ class FeedController: UICollectionViewController {
     
     let memoManager = CoreDataManager.shared
     
-   
-    
-    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -44,7 +41,7 @@ class FeedController: UICollectionViewController {
     // MARK: - Helpers
     
     func configureUI() {
-        collectionView.backgroundColor = .gray
+        collectionView.backgroundColor = .white
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier) // ⭐️
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier) // 🔴
     }
@@ -56,10 +53,6 @@ class FeedController: UICollectionViewController {
         navigationItem.rightBarButtonItem = plusButton
     }
     
-    
-    
-    
-    
     // MARK: - Actions
 
     // 추가하기 버튼
@@ -70,9 +63,6 @@ class FeedController: UICollectionViewController {
     }
     
 }
-
-
-
 
 // MARK: - UICollectionViewDataSource
 
@@ -114,30 +104,32 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     
     // 셀 선택
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function)
+        
+        // MARK: - 기존 ⭐️
 //        let controller = PlusMemoryController()
-//
-        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
+//        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
 //        controller.memoData = current
 //
 //        navigationController?.pushViewController(controller, animated: true)
-//
-//        print("DEBUG: didSelectItemAt")
+
+        
         
         
         
         // TODO: - DetailViewController 띄우기
-        let detailViewController = DetailViewController(memo: current)
-        //⭐️찾아보기⭐️
-        //self.navigationController?.modalTransitionStyle
-        //self.navigationController?.modalPresentationStyle
-        self.navigationController?.present(detailViewController, animated: true)
-    }
-    
-    
-    
-
-    
         
+        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
+        let detailViewController = DetailViewController(memo: current)
+        // ⭐️찾아보기⭐️
+//        detailViewController.navigationController?.modalTransitionStyle = .coverVertical
+//        detailViewController.navigationController?.modalPresentationStyle = .overFullScreen
+        detailViewController.modalTransitionStyle = .coverVertical
+        detailViewController.modalPresentationStyle = .fullScreen
+        
+        self.present(detailViewController, animated: true)
+    }
+          
 }
     
 

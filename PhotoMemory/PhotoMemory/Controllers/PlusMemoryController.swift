@@ -21,29 +21,8 @@ class PlusMemoryController: UITableViewController {
     
     // MARK: - Properties
     
-    private var plusButtonImage: UIImage?
-    
-    // MARK: - 액션 버튼을 달때 항상 lazy 키워드로 작성해주기
-    private lazy var plusPhotoButton: UIButton = {
-        let button = UIButton(type: .system)
-        //button.backgroundColor = .lightGray
-        button.backgroundColor = .clear
-        button.setImage(#imageLiteral(resourceName: "plus_photo"), for: .normal)
-        //button.tintColor = .white
-        button.addTarget(self, action: #selector(handlePhotoSelect), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     private lazy var memoImage: UIImageView = {
         let imageView = UIImageView()
-        //button.backgroundColor = .lightGray
-//        button.backgroundColor = .clear
-//        button.setImage(#imageLiteral(resourceName: "plus_photo"), for: .normal)
-//        //button.tintColor = .white
-//        button.addTarget(self, action: #selector(handlePhotoSelect), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-        
         imageView.backgroundColor = .clear
         imageView.image = UIImage(named: "plus_photo")
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,11 +30,12 @@ class PlusMemoryController: UITableViewController {
     }()
     
     private let memoTextView: UITextView  = {
-        let tf = UITextView()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
     }()
     
+    // MARK: - 액션 버튼을 달때 항상 lazy 키워드로 작성해주기 ⭐️
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("SAVE", for: .normal)
@@ -96,14 +76,8 @@ class PlusMemoryController: UITableViewController {
         // 기존데이터가 있을때 ===> 기존 데이터 업데이트
         if let memoData = self.memoData {
             // 텍스트뷰에 저장되어 있는 메세지
-            // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
             memoData.text = memoTextView.text
-            //memoData.photo = plusButtonImage?.pngData()
-//            memoData.photo = plusPhotoButton.image
-            //memoData.photo = plusPhotoButton.imageView?.image?.pngData()
-            
             memoData.photo = memoImage.image?.pngData()
-            
             
             memoManager.updateToDo(newToDoData: memoData) {
                 
@@ -111,13 +85,12 @@ class PlusMemoryController: UITableViewController {
                 self.navigationController?.popViewController(animated: true)
             }
             
-            // 기존데이터가 없을때 ===> 새로운 데이터 생성
+        // 기존데이터가 없을때 ===> 새로운 데이터 생성
         } else {
             let memoText = memoTextView.text
-//            guard let plusPhotoButton = plusPhotoButton.imageView?.image?.pngData() else { return print("이미지 없음")}
             guard let memoImageData = memoImage.image?.pngData() else { return print("이미지 없음")}
+            // 🔴 이미지가 늘 설정되어있기 때문에 이미지가 없을수가 없다.......
             
-            // 1
             memoManager.saveMemoData(memoText: memoText, memoPhoto: memoImageData) { [weak self] isValid in
                 if isValid == true {
                     print("저장완료👍")
@@ -130,9 +103,6 @@ class PlusMemoryController: UITableViewController {
         }
     }
     
-    
-    
-    
     // 지우기 버튼
     @objc func deleteButtonTapped() {
         print("DEBUG: deleteButtonTapped")
@@ -142,30 +112,11 @@ class PlusMemoryController: UITableViewController {
         }
         // 다시 전화면으로 돌아가기
         self.navigationController?.popViewController(animated: true)
-        
     }
-    
-    
-    
-    
-    
     
     // MARK: - AutoLayout
     
-    // 오토레이아웃 업데이트
-    
     func setContraints() {
-        
-        
-//        view.addSubview(plusPhotoButton)
-//        NSLayoutConstraint.activate([
-//            plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            plusPhotoButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-//            plusPhotoButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-//            plusPhotoButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
-//            plusPhotoButton.heightAnchor.constraint(equalToConstant: 350)
-//        ])
-        
         view.addSubview(memoImage)
         NSLayoutConstraint.activate([
             memoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -175,7 +126,6 @@ class PlusMemoryController: UITableViewController {
             memoImage.heightAnchor.constraint(equalToConstant: 350)
         ])
         
-        
         view.addSubview(memoTextView)
         NSLayoutConstraint.activate([
             memoTextView.topAnchor.constraint(equalTo: memoImage.bottomAnchor, constant: 30),
@@ -183,7 +133,6 @@ class PlusMemoryController: UITableViewController {
             memoTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             memoTextView.heightAnchor.constraint(equalToConstant: 200)
         ])
-        
         
         view.addSubview(saveButton)
         NSLayoutConstraint.activate([
@@ -193,7 +142,6 @@ class PlusMemoryController: UITableViewController {
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             saveButton.heightAnchor.constraint(equalToConstant: 40)
         ])
-        
     }
     
     // MARK: - Helpers
@@ -206,13 +154,6 @@ class PlusMemoryController: UITableViewController {
             deleteButton.tintColor = .black
             navigationItem.rightBarButtonItem = deleteButton
             self.title = "메모 수정하기"
-
-//            plusPhotoButton.imageView?.image = memoData.photo
-//            plusPhotoButton.imageView?.image = UIImage(data: memoData.photo!)
-            
-//            let image = UIImage(data: memoData.photo!)
-//            plusPhotoButton.setImage(image, for: .normal)
-//            plusPhotoButton.tintColor = .clear
             
             memoImage.image = UIImage(data: memoData.photo!)
             
@@ -227,6 +168,12 @@ class PlusMemoryController: UITableViewController {
             memoTextView.textColor = .lightGray
         }
     }
+//
+//    // 다른 곳을 터치하면 키보드 내리기
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        view.endEditing(true)
+//    }
+    
 }
 
 
@@ -237,7 +184,7 @@ extension PlusMemoryController: UITextViewDelegate {
     // (텍스트뷰는 플레이스홀더가 따로 있지 않아서, 플레이스 홀더처럼 동작하도록 직접 구현)
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "텍스트를 여기에 입력하세요." {
-            textView.text = nil
+            textView.text = ""
             textView.textColor = .black
         }
     }
@@ -259,9 +206,6 @@ extension PlusMemoryController:  UIImagePickerControllerDelegate , UINavigationC
     // 사진 넣기 설정
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
-//        plusPhotoButton.imageView?.image = selectedImage
-//        plusPhotoButton.layer.masksToBounds = true
-//        plusPhotoButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
         
         memoImage.image = selectedImage
         

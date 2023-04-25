@@ -15,13 +15,6 @@ class FeedCell: UICollectionViewCell {
         }
     }
     
-    // MARK: - properties
-    private let cellImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "venom-7")
-        return imageView
-    }()
-    
     
     // MARK: - LifeCycle
     
@@ -29,6 +22,12 @@ class FeedCell: UICollectionViewCell {
         super.init(frame: frame)
         // backgroundColor = .red
         //backgroundView = cellImageView
+        
+        // 셀의 모서리를 라운드 처리합니다.
+        layer.cornerRadius = 3
+        layer.masksToBounds = true
+        layer.borderWidth = 0.5
+        layer.borderColor = UIColor.lightGray.cgColor
     }
     
     required init?(coder: NSCoder) {
