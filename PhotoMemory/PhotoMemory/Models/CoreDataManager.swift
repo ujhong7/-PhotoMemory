@@ -122,7 +122,6 @@ final class CoreDataManager {
                         }
                     }
                 }
-                completion()
             } catch {
                 print("지우는 것 실패")
                 completion()

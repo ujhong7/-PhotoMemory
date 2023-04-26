@@ -31,6 +31,8 @@ class FeedController: UICollectionViewController {
         super.viewWillAppear(animated)
         // 뷰가 다시 나타날때, 테이블뷰를 리로드
         collectionView.reloadData()
+        // DetailViewController에서 tabBar지운거 다시 복원
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     
@@ -106,6 +108,9 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(#function)
         
+        
+        
+        
         // MARK: - 기존 ⭐️
 //        let controller = PlusMemoryController()
 //        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
@@ -114,22 +119,21 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
 //        navigationController?.pushViewController(controller, animated: true)
 
         
-        
-        
-        
         // TODO: - DetailViewController 띄우기
-        
         let current = memoManager.getMemoListFromCoreData()[indexPath.row]
         let detailViewController = DetailViewController(memo: current)
-        // ⭐️찾아보기⭐️
-//        detailViewController.navigationController?.modalTransitionStyle = .coverVertical
-//        detailViewController.navigationController?.modalPresentationStyle = .overFullScreen
-        detailViewController.modalTransitionStyle = .coverVertical
-        detailViewController.modalPresentationStyle = .fullScreen
+        detailViewController.memoData = current
         
-        self.present(detailViewController, animated: true)
+        
+        navigationController?.modalTransitionStyle = .partialCurl
+        navigationController?.modalPresentationStyle = .overFullScreen
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
           
+    
+    
+    
+    
 }
     
 
