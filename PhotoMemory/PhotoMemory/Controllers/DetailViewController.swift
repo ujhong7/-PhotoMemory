@@ -27,14 +27,26 @@ class DetailViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .yellow
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
-    private lazy var memoTextView: UITextView  = {
+    private lazy var memoTextView: UITextView = {
         let textView = UITextView()
         textView.text = memoData?.text
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
+    private lazy var blurEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark) // 블러 배경 색상을 수정하는 코드
+        let visualEffectView = UIVisualEffectView(effect: blurEffect)
+        return visualEffectView
+    }()
     
     // MARK: - LifeCycle
     convenience init(memo: MemoData){
@@ -55,6 +67,10 @@ class DetailViewController: UIViewController {
         setupNaviBar()
         setGesture()
         setGesture2()
+    }
+    
+    deinit {
+        print(#fileID, #function, #line, "칸트")
     }
     
     // MARK: - Helpers
@@ -85,7 +101,7 @@ class DetailViewController: UIViewController {
     // MARK: - Actions
     // Edit
     @objc func editButtonTapped() {
-        let controller = PlusMemoryController()
+        let controller = PlusMemoryController(type: .editType)
         controller.memoData = self.memoData // ⭐️ 잘모르겠음..
         
         navigationController?.pushViewController(controller, animated: true)
@@ -107,24 +123,23 @@ class DetailViewController: UIViewController {
     }
     
     // blur처리
-    @objc func blurImage() {
-        
-        // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-        let ciImage = CIImage(data: memoData!.photo!)
-
-        let blurFilter = CIFilter(name: "CIGaussianBlur")
-        blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-        blurFilter?.setValue(10, forKey: kCIInputRadiusKey) // blur 강도
-
-        let context = CIContext(options: nil)
-
-        if let output = blurFilter?.outputImage,
-           let blurredImage = context.createCGImage(output, from: output.extent) {
-            memoImage.image = UIImage(cgImage: blurredImage)
-        }
-        // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-        
-    }
+//    @objc func blurImage() {
+//
+//        // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+//        let ciImage = CIImage(data: memoData!.photo!)
+//
+//        let blurFilter = CIFilter(name: "CIGaussianBlur")
+//        blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+//        blurFilter?.setValue(10, forKey: kCIInputRadiusKey) // blur 강도
+//
+//        let context = CIContext(options: nil)
+//
+//        if let output = blurFilter?.outputImage,
+//           let blurredImage = context.createCGImage(output, from: output.extent) {
+//            memoImage.image = UIImage(cgImage: blurredImage)
+//        }
+//        // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+//    }
     
     // MARK: - AutoLayout
     func setContraints() {
@@ -136,6 +151,39 @@ class DetailViewController: UIViewController {
             // 크기
             memoImage.widthAnchor.constraint(equalToConstant: 400),
             memoImage.heightAnchor.constraint(equalToConstant: 400)
+        ])
+//        view.addSubview(memoTextView)
+//        NSLayoutConstraint.activate([
+//            // 위치
+//            memoTextView.centerXAnchor.constraint(equalTo: memoImage.centerXAnchor),
+//            memoTextView.centerYAnchor.constraint(equalTo: memoImage.centerYAnchor),
+//            // 크기
+//            memoTextView.widthAnchor.constraint(equalToConstant: 200),
+//            memoTextView.heightAnchor.constraint(equalToConstant: 200)
+//        ])
+//
+//        view.addSubview(blurEffectView)
+//        NSLayoutConstraint.activate([
+//            blurEffectView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            blurEffectView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            blurEffectView.widthAnchor.constraint(equalToConstant: 400),
+//            blurEffectView.heightAnchor.constraint(equalToConstant: 400)
+//        ])
+        
+        view.addSubview(containerView)
+        NSLayoutConstraint.activate([
+            containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            containerView.widthAnchor.constraint(equalToConstant: 400),
+            containerView.heightAnchor.constraint(equalToConstant: 400)
+        ])
+        
+        containerView.addSubview(memoTextView)
+        NSLayoutConstraint.activate([
+            memoTextView.centerXAnchor.constraint(equalTo: memoImage.centerXAnchor),
+            memoTextView.centerYAnchor.constraint(equalTo: memoImage.centerYAnchor),
+            memoTextView.widthAnchor.constraint(equalToConstant: 200),
+            memoTextView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
 

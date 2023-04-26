@@ -59,7 +59,7 @@ class FeedController: UICollectionViewController {
 
     // 추가하기 버튼
     @objc func plusButtonTapped() {
-        let controller = PlusMemoryController()
+        let controller = PlusMemoryController(type: .createType)
         navigationController?.pushViewController(controller, animated: true)
         print("DEBUG: plusButtonTapped")
     }
