@@ -62,6 +62,17 @@ class PlusMemoryController: UITableViewController {
         return button
     }()
     
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
+    // 애니메이션을 위한 속성
+    var imageViewTopConstraint: NSLayoutConstraint!
+    
     // MARK: - LifeCycle
     convenience init(type: MemoType){
         self.init()
@@ -75,6 +86,7 @@ class PlusMemoryController: UITableViewController {
         setContraints()
         configureUI()
         setGesture()
+        setupNotification()
         memoTextView.delegate = self
     }
     
@@ -82,6 +94,35 @@ class PlusMemoryController: UITableViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handlePhotoSelect))
         memoImage.isUserInteractionEnabled = true
         memoImage.addGestureRecognizer(tapGesture)
+    }
+    
+    // MARK: - 노티피케이션 셋팅 (키보드)
+    func setupNotification(){
+        // 노티피케이션의 등록
+        // (OS차원에서 어떤 노티피케이션이 발생하는지 이미 정해져 있음)
+        NotificationCenter.default.addObserver(self, selector: #selector(moveUpAction),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(moveDownAction),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    // MARK: - 키보드가 나타날때와 내려갈때 에니메이션
+    @objc func moveUpAction(){
+//        NSLayoutConstraint.activate([
+//            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: -30), // ⭐️
+//        ])
+//        UIImageView.animate(withDuration: 0.2) {
+//            self.memoImage.layoutIfNeeded()
+//        }
+    }
+    
+    @objc func moveDownAction(){
+//        NSLayoutConstraint.activate([
+//            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0), // ⭐️
+//        ])
+//        UIImageView.animate(withDuration: 0.2) {
+//            self.memoImage.layoutIfNeeded()
+//        }
     }
     
     // MARK: - Actions
@@ -154,14 +195,27 @@ class PlusMemoryController: UITableViewController {
     // MARK: - AutoLayout
     
     func setContraints() {
+        
+        view.addSubview(containerView)
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: view.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)      
+        ])
+        
+        
         view.addSubview(memoImage)
         NSLayoutConstraint.activate([
             memoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0), // ⭐️
             memoImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             memoImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             memoImage.heightAnchor.constraint(equalToConstant: 350)
         ])
+        
+        
+        imageViewTopConstraint = memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
         
         view.addSubview(memoTextView)
         NSLayoutConstraint.activate([
@@ -173,7 +227,6 @@ class PlusMemoryController: UITableViewController {
         
         view.addSubview(saveButton)
         NSLayoutConstraint.activate([
-            
             saveButton.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 30),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),

@@ -30,7 +30,7 @@ class DetailViewController: UIViewController {
     
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .yellow
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -66,7 +66,8 @@ class DetailViewController: UIViewController {
         setContraints()
         setupNaviBar()
         setGesture()
-        setGesture2()
+        hideText()
+        
     }
     
     deinit {
@@ -89,14 +90,19 @@ class DetailViewController: UIViewController {
         view.addGestureRecognizer(naviTabHide)
     }
     
-    func setGesture2() {
-//        // 이미지 블러처리 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-//        let blurGesture = UITapGestureRecognizer(target: self, action: #selector(blurImage))
-//        memoImage.isUserInteractionEnabled = true
-//        memoImage.addGestureRecognizer(blurGesture)
-//        
-//        view.addGestureRecognizer(blurGesture)
+    func hideText() {
+        // TextView 가리기 on/off
+        let hideTextButton = UITapGestureRecognizer(target: self, action: #selector(textHide))
+        containerView.addGestureRecognizer(hideTextButton)
+//        alpha속성을 사용해서 hide하기
+//        memoTextView.alpha = 1
+//        memoTextView.isUserInteractionEnabled = true
     }
+    
+    
+   
+    
+    
     
     // MARK: - Actions
     // Edit
@@ -106,6 +112,14 @@ class DetailViewController: UIViewController {
         
         navigationController?.pushViewController(controller, animated: true)
         print("DEBUG: plusButtonTapped")
+    }
+    
+    // 텍스트 숨기기 제스쳐
+    @objc func textHide() {
+         memoTextView.isHidden.toggle()
+//        alpha속성을 사용해서 hide하기
+//        memoTextView.alpha = memoTextView.alpha == 0 ? 1 : 0
+//        memoTextView.isUserInteractionEnabled = !memoTextView.isUserInteractionEnabled
     }
     
     // 네비게이션 바 숨기기 제스쳐
@@ -121,24 +135,12 @@ class DetailViewController: UIViewController {
             navigationController?.setNavigationBarHidden(true, animated: true)
         }
     }
+        
+   
     
-    // blur처리
-//    @objc func blurImage() {
-//
-//        // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-//        let ciImage = CIImage(data: memoData!.photo!)
-//
-//        let blurFilter = CIFilter(name: "CIGaussianBlur")
-//        blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-//        blurFilter?.setValue(10, forKey: kCIInputRadiusKey) // blur 강도
-//
-//        let context = CIContext(options: nil)
-//
-//        if let output = blurFilter?.outputImage,
-//           let blurredImage = context.createCGImage(output, from: output.extent) {
-//            memoImage.image = UIImage(cgImage: blurredImage)
-//        }
-//        // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+    // 화면 터치 키보드 내리기 (첫번째 responder가 될수 있는것 종료)
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.endEditing(true)
 //    }
     
     // MARK: - AutoLayout
@@ -185,6 +187,17 @@ class DetailViewController: UIViewController {
             memoTextView.widthAnchor.constraint(equalToConstant: 200),
             memoTextView.heightAnchor.constraint(equalToConstant: 200)
         ])
+        
+        
+//        containerView.addSubview(blurEffectView)
+//        NSLayoutConstraint.activate([
+//            blurEffectView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            blurEffectView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            blurEffectView.widthAnchor.constraint(equalToConstant: 400),
+//            blurEffectView.heightAnchor.constraint(equalToConstant: 400)
+//        ])
+        
+        
     }
 
     
