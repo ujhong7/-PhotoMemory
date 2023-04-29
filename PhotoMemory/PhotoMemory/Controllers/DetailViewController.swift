@@ -30,7 +30,8 @@ class DetailViewController: UIViewController {
     
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
+         view.backgroundColor = .clear
+//        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -43,8 +44,12 @@ class DetailViewController: UIViewController {
     }()
     
     private lazy var blurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark) // 블러 배경 색상을 수정하는 코드
+        let blurEffect = UIBlurEffect(style: .regular) // 블러 배경 색상을 수정하는 코드
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
+        visualEffectView.frame = view.frame
+//        visualEffectView.alpha = 1.0
+//        visualEffectView.isHidden = false
+
         return visualEffectView
     }()
     
@@ -97,6 +102,11 @@ class DetailViewController: UIViewController {
 //        alpha속성을 사용해서 hide하기
 //        memoTextView.alpha = 1
 //        memoTextView.isUserInteractionEnabled = true
+        
+        
+        
+        
+       
     }
     
     
@@ -117,6 +127,7 @@ class DetailViewController: UIViewController {
     // 텍스트 숨기기 제스쳐
     @objc func textHide() {
          memoTextView.isHidden.toggle()
+        blurEffectView.isHidden.toggle() 
 //        alpha속성을 사용해서 hide하기
 //        memoTextView.alpha = memoTextView.alpha == 0 ? 1 : 0
 //        memoTextView.isUserInteractionEnabled = !memoTextView.isUserInteractionEnabled
@@ -189,13 +200,13 @@ class DetailViewController: UIViewController {
         ])
         
         
-//        containerView.addSubview(blurEffectView)
-//        NSLayoutConstraint.activate([
-//            blurEffectView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            blurEffectView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            blurEffectView.widthAnchor.constraint(equalToConstant: 400),
-//            blurEffectView.heightAnchor.constraint(equalToConstant: 400)
-//        ])
+        containerView.addSubview(blurEffectView)
+        NSLayoutConstraint.activate([
+            blurEffectView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            blurEffectView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            blurEffectView.widthAnchor.constraint(equalToConstant: 400),
+            blurEffectView.heightAnchor.constraint(equalToConstant: 400)
+        ])
         
         
     }
