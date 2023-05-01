@@ -30,7 +30,7 @@ class DetailViewController: UIViewController {
     
     private lazy var containerView: UIView = {
         let view = UIView()
-         view.backgroundColor = .clear
+         view.backgroundColor = .red
 //        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -39,14 +39,41 @@ class DetailViewController: UIViewController {
     private lazy var memoTextView: UITextView = {
         let textView = UITextView()
         textView.text = memoData?.text
+        let font = UIFont.boldSystemFont(ofSize: 20)
+        textView.font = font
+        textView.backgroundColor = .clear
+        let textColor = UIColor.black
+        textView.textColor = textColor
+        
+        
+        // NSAttributedString 생성 (폰트 테두리)
+          let attributes: [NSAttributedString.Key: Any] = [
+              .font: font,
+              .foregroundColor: textColor,
+              .strokeColor: UIColor.black, // 테두리 색상
+              .strokeWidth: -3.0 // 음수 값으로 설정하면 테두리가 채워짐
+          ]
+          let attributedString = NSAttributedString(string: textView.text ?? "", attributes: attributes)
+          
+          textView.attributedText = attributedString
+        
+    
+        // 편집 불가능하도록 설정
+        textView.isEditable = false
+        //
+        textView.isHidden = true
+        
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
     private lazy var blurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .regular) // 블러 배경 색상을 수정하는 코드
+        let blurEffect = UIBlurEffect(style: .systemChromeMaterialDark) // 블러 배경 색상을 수정하는 코드
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = view.frame
+        // 초기값blur 꺼두기
+        visualEffectView.isHidden = true
+        
 //        visualEffectView.alpha = 1.0
 //        visualEffectView.isHidden = false
 
@@ -62,6 +89,8 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+        
+        
     }
     
     override func viewDidLoad() {
@@ -70,10 +99,13 @@ class DetailViewController: UIViewController {
 
         setContraints()
         setupNaviBar()
-        setGesture()
-        hideText()
-        
+        //setGesture()
+        textHide()
     }
+    
+    
+
+    
     
     deinit {
         print(#fileID, #function, #line, "칸트")
@@ -95,24 +127,17 @@ class DetailViewController: UIViewController {
         view.addGestureRecognizer(naviTabHide)
     }
     
-    func hideText() {
+    func textHide() {
         // TextView 가리기 on/off
-        let hideTextButton = UITapGestureRecognizer(target: self, action: #selector(textHide))
-        containerView.addGestureRecognizer(hideTextButton)
+        let textHideButton = UITapGestureRecognizer(target: self, action: #selector(textHideSelector))
+        containerView.addGestureRecognizer(textHideButton)
+//memoTextView.addGestureRecognizer(textHideButton)
+        
 //        alpha속성을 사용해서 hide하기
 //        memoTextView.alpha = 1
 //        memoTextView.isUserInteractionEnabled = true
         
-        
-        
-        
-       
     }
-    
-    
-   
-    
-    
     
     // MARK: - Actions
     // Edit
@@ -124,13 +149,52 @@ class DetailViewController: UIViewController {
         print("DEBUG: plusButtonTapped")
     }
     
+//    // 텍스트 숨기기 제스쳐
+//    @objc func textHideSelector() {
+////        memoTextView.isHidden.toggle()
+////        blurEffectView.isHidden.toggle()
+//
+//        UIView.animate(withDuration: 3) {
+//            self.memoTextView.isHidden.toggle()
+//            self.blurEffectView.isHidden.toggle()
+//        }
+//
+//
+////        alpha속성을 사용해서 hide하기
+////        memoTextView.alpha = memoTextView.alpha == 0 ? 1 : 0
+////        memoTextView.isUserInteractionEnabled = !memoTextView.isUserInteractionEnabled
+//    }
+    
     // 텍스트 숨기기 제스쳐
-    @objc func textHide() {
-         memoTextView.isHidden.toggle()
-        blurEffectView.isHidden.toggle() 
-//        alpha속성을 사용해서 hide하기
-//        memoTextView.alpha = memoTextView.alpha == 0 ? 1 : 0
-//        memoTextView.isUserInteractionEnabled = !memoTextView.isUserInteractionEnabled
+    @objc func textHideSelector() {
+        let duration = 0.7
+        let textDuration = 1.0
+        
+        if blurEffectView.alpha == 0.0 {
+            blurEffectView.isHidden = false
+            UIView.animate(withDuration: duration) {
+                self.blurEffectView.alpha = 1.0
+            }
+        } else {
+            UIView.animate(withDuration: duration) {
+                self.blurEffectView.alpha = 0.0
+            } completion: { _ in
+                self.blurEffectView.isHidden = true
+            }
+        }
+        
+        if memoTextView.alpha == 0.0 {
+            memoTextView.isHidden = false
+            UIView.animate(withDuration: textDuration) {
+                self.memoTextView.alpha = 1.0
+            }
+        } else {
+            UIView.animate(withDuration: textDuration) {
+                self.memoTextView.alpha = 0.0
+            } completion: { _ in
+                self.memoTextView.isHidden = true
+            }
+        }
     }
     
     // 네비게이션 바 숨기기 제스쳐
@@ -191,23 +255,26 @@ class DetailViewController: UIViewController {
             containerView.heightAnchor.constraint(equalToConstant: 400)
         ])
         
+        containerView.addSubview(blurEffectView)
+        NSLayoutConstraint.activate([
+//            blurEffectView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+//            blurEffectView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+//            blurEffectView.widthAnchor.constraint(equalToConstant: 400),
+//            blurEffectView.heightAnchor.constraint(equalToConstant: 400)
+
+            blurEffectView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            blurEffectView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            blurEffectView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            blurEffectView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+        
         containerView.addSubview(memoTextView)
         NSLayoutConstraint.activate([
             memoTextView.centerXAnchor.constraint(equalTo: memoImage.centerXAnchor),
             memoTextView.centerYAnchor.constraint(equalTo: memoImage.centerYAnchor),
-            memoTextView.widthAnchor.constraint(equalToConstant: 200),
-            memoTextView.heightAnchor.constraint(equalToConstant: 200)
+            memoTextView.widthAnchor.constraint(equalToConstant: 315),
+            memoTextView.heightAnchor.constraint(equalToConstant: 300)
         ])
-        
-        
-        containerView.addSubview(blurEffectView)
-        NSLayoutConstraint.activate([
-            blurEffectView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            blurEffectView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            blurEffectView.widthAnchor.constraint(equalToConstant: 400),
-            blurEffectView.heightAnchor.constraint(equalToConstant: 400)
-        ])
-        
         
     }
 

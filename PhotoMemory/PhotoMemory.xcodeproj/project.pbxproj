@@ -95,9 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				1D39993929F0E50B007BC059 /* MainTabController.swift */,
-				1D39993129F0CFB2007BC059 /* FeedController.swift */,
-				1D39994329F105FE007BC059 /* PlusMemoryController.swift */,
-				BE58A9DE29F6A8D20081A0EA /* DetailViewController.swift */,
+				1DA9D80C29FF830B002C499C /* Feed */,
 				1D39993F29F0E66B007BC059 /* secondController.swift */,
 				1D39993B29F0E5D1007BC059 /* thirdController.swift */,
 				1D39993D29F0E5E0007BC059 /* fourthController.swift */,
@@ -130,6 +128,16 @@
 				1D39991C29F0CADD007BC059 /* SceneDelegate.swift */,
 			);
 			path = Utilis;
+			sourceTree = "<group>";
+		};
+		1DA9D80C29FF830B002C499C /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				1D39993129F0CFB2007BC059 /* FeedController.swift */,
+				1D39994329F105FE007BC059 /* PlusMemoryController.swift */,
+				BE58A9DE29F6A8D20081A0EA /* DetailViewController.swift */,
+			);
+			path = Feed;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -137,7 +137,7 @@ class PlusMemoryController: UITableViewController {
     
     @objc func saveButtonTapped() {
         print(#function)
-        // 기존데이터가 있을때 ===> 기존 데이터 업데이트
+        // 기존데이터가 있을때 ===> 기존 데이터 업데이트 (edit)
         if let memoData = self.memoData {
             // 텍스트뷰에 저장되어 있는 메세지
             memoData.text = memoTextView.text
@@ -147,7 +147,9 @@ class PlusMemoryController: UITableViewController {
                 
                 // 다시 전화면으로 돌아가기
                 print(#fileID, #function, #line, "칸트")
-                self.navigationController?.popViewController(animated: true) // 🔵
+                
+                // self.navigationController?.rootpopViewController(animated: true) // 🔵
+                self.navigationController?.popToRootViewController(animated: true)
                 // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
                 // 수정하고 pop했을때 detailVC로 가는게 아니라 detailVC 거치고 PlusMemortController로 간다.. 뭐가 잘못일까 🔴
                 // edit들어가서 ->  삭제  -> 삭제는되는데 detailVC 화면뜸 -> 여기서 edit 누르면 앱죽음.. 🔴
