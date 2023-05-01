@@ -43,7 +43,6 @@ final class DetailViewController: UIViewController {
         let textColor = UIColor.black
         textView.textColor = textColor
         
-        
         // NSAttributedString 생성 (폰트 테두리)
           let attributes: [NSAttributedString.Key: Any] = [
               .font: font,
@@ -55,7 +54,6 @@ final class DetailViewController: UIViewController {
           
           textView.attributedText = attributedString
         
-    
         // 편집 불가능하도록 설정
         textView.isEditable = false
         
@@ -67,7 +65,7 @@ final class DetailViewController: UIViewController {
     }()
     
     private lazy var blurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemChromeMaterialDark) // 블러 배경 색상을 수정하는 코드
+        let blurEffect = UIBlurEffect(style: .regular) // 블러 배경 색상을 수정하는 코드
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = view.frame
         // 초기값blur 꺼두기
@@ -119,8 +117,6 @@ final class DetailViewController: UIViewController {
         // 네비게이션 바 안보이도록 하는 제스쳐
         let naviTabHide = UITapGestureRecognizer(target: self, action: #selector(naviTabHide))
         view.addGestureRecognizer(naviTabHide)
-        
-        
     }
     
     func setGestureTextView() {
@@ -162,9 +158,10 @@ final class DetailViewController: UIViewController {
     
     // 텍스트 숨기기 제스쳐
     @objc func textHideSelector() {
-        let duration = 3.0
+        let duration = 0.7
         let textDuration = 1.0
         
+        // ⭐️ 추가 공부 필요
         if blurEffectView.alpha == 0.0 {
             blurEffectView.isHidden = false
             UIView.animate(withDuration: duration) {
@@ -217,30 +214,11 @@ final class DetailViewController: UIViewController {
     func setContraints() {
         view.addSubview(memoImage)
         NSLayoutConstraint.activate([
-            // 위치
             memoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             memoImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            // 크기
             memoImage.widthAnchor.constraint(equalToConstant: 400),
             memoImage.heightAnchor.constraint(equalToConstant: 400)
         ])
-//        view.addSubview(memoTextView)
-//        NSLayoutConstraint.activate([
-//            // 위치
-//            memoTextView.centerXAnchor.constraint(equalTo: memoImage.centerXAnchor),
-//            memoTextView.centerYAnchor.constraint(equalTo: memoImage.centerYAnchor),
-//            // 크기
-//            memoTextView.widthAnchor.constraint(equalToConstant: 200),
-//            memoTextView.heightAnchor.constraint(equalToConstant: 200)
-//        ])
-//
-//        view.addSubview(blurEffectView)
-//        NSLayoutConstraint.activate([
-//            blurEffectView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            blurEffectView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            blurEffectView.widthAnchor.constraint(equalToConstant: 400),
-//            blurEffectView.heightAnchor.constraint(equalToConstant: 400)
-//        ])
         
         view.addSubview(containerView)
         NSLayoutConstraint.activate([
@@ -265,8 +243,5 @@ final class DetailViewController: UIViewController {
             memoTextView.widthAnchor.constraint(equalToConstant: 315),
             memoTextView.heightAnchor.constraint(equalToConstant: 300)
         ])
-        
     }
-
-    
 }

@@ -107,10 +107,7 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     // 셀 선택
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(#function)
-        
-        
-        
-        
+
         // MARK: - 기존 ⭐️
 //        let controller = PlusMemoryController()
 //        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
@@ -129,11 +126,6 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         navigationController?.modalPresentationStyle = .overFullScreen
         navigationController?.pushViewController(detailViewController, animated: true)
     }
-          
-    
-    
-    
-    
 }
     
 

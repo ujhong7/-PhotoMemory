@@ -160,6 +160,7 @@ class PlusMemoryController: UITableViewController {
         // 기존데이터가 없을때 ===> 새로운 데이터 생성
         } else {
             let memoText = memoTextView.text
+            guard memoText != "텍스트를 여기에 입력하세요." else { return print("텍스트를 입력하세요.")}
             guard  memoImage.image != UIImage(named: "plus_photo") else { return print("이미지 없음") }
             guard let memoImageData = memoImage.image?.pngData() else { return print("이미지 없음")}
             // 🔴 이미지가 늘 설정되어있기 때문에 이미지가 없을수가 없다.......
