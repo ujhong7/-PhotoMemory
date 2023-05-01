@@ -7,11 +7,9 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-    
+final class DetailViewController: UIViewController {
 //    private var memo: MemoData?
-    
-    let memoManager = CoreDataManager.shared
+    private let memoManager = CoreDataManager.shared
     
     var memoData: MemoData?  {
         didSet {
@@ -30,7 +28,7 @@ class DetailViewController: UIViewController {
     
     private lazy var containerView: UIView = {
         let view = UIView()
-         view.backgroundColor = .red
+         view.backgroundColor = .clear
 //        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -60,7 +58,8 @@ class DetailViewController: UIViewController {
     
         // 편집 불가능하도록 설정
         textView.isEditable = false
-        //
+        
+        textView.alpha = 0.0
         textView.isHidden = true
         
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,10 +71,11 @@ class DetailViewController: UIViewController {
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = view.frame
         // 초기값blur 꺼두기
-        visualEffectView.isHidden = true
         
-//        visualEffectView.alpha = 1.0
-//        visualEffectView.isHidden = false
+        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
+        
+        visualEffectView.alpha = 0.0
+        visualEffectView.isHidden = true
 
         return visualEffectView
     }()
@@ -89,8 +89,6 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
-        
-        
     }
     
     override func viewDidLoad() {
@@ -99,13 +97,9 @@ class DetailViewController: UIViewController {
 
         setContraints()
         setupNaviBar()
-        //setGesture()
-        textHide()
+        setGestureNavi()
+        setGestureTextView()
     }
-    
-    
-
-    
     
     deinit {
         print(#fileID, #function, #line, "칸트")
@@ -121,13 +115,15 @@ class DetailViewController: UIViewController {
     }
     
     // MARK: - setGesture
-    func setGesture() {
+    func setGestureNavi() {
         // 네비게이션 바 안보이도록 하는 제스쳐
         let naviTabHide = UITapGestureRecognizer(target: self, action: #selector(naviTabHide))
         view.addGestureRecognizer(naviTabHide)
+        
+        
     }
     
-    func textHide() {
+    func setGestureTextView() {
         // TextView 가리기 on/off
         let textHideButton = UITapGestureRecognizer(target: self, action: #selector(textHideSelector))
         containerView.addGestureRecognizer(textHideButton)
@@ -136,7 +132,6 @@ class DetailViewController: UIViewController {
 //        alpha속성을 사용해서 hide하기
 //        memoTextView.alpha = 1
 //        memoTextView.isUserInteractionEnabled = true
-        
     }
     
     // MARK: - Actions
@@ -167,7 +162,7 @@ class DetailViewController: UIViewController {
     
     // 텍스트 숨기기 제스쳐
     @objc func textHideSelector() {
-        let duration = 0.7
+        let duration = 3.0
         let textDuration = 1.0
         
         if blurEffectView.alpha == 0.0 {
@@ -182,7 +177,7 @@ class DetailViewController: UIViewController {
                 self.blurEffectView.isHidden = true
             }
         }
-        
+
         if memoTextView.alpha == 0.0 {
             memoTextView.isHidden = false
             UIView.animate(withDuration: textDuration) {
@@ -257,11 +252,6 @@ class DetailViewController: UIViewController {
         
         containerView.addSubview(blurEffectView)
         NSLayoutConstraint.activate([
-//            blurEffectView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-//            blurEffectView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-//            blurEffectView.widthAnchor.constraint(equalToConstant: 400),
-//            blurEffectView.heightAnchor.constraint(equalToConstant: 400)
-
             blurEffectView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             blurEffectView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             blurEffectView.topAnchor.constraint(equalTo: containerView.topAnchor),
