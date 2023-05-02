@@ -28,8 +28,7 @@ final class DetailViewController: UIViewController {
     
     private lazy var containerView: UIView = {
         let view = UIView()
-         view.backgroundColor = .clear
-//        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -54,12 +53,9 @@ final class DetailViewController: UIViewController {
           
           textView.attributedText = attributedString
         
-        // 편집 불가능하도록 설정
         textView.isEditable = false
-        
         textView.alpha = 0.0
         textView.isHidden = true
-        
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -68,13 +64,9 @@ final class DetailViewController: UIViewController {
         let blurEffect = UIBlurEffect(style: .regular) // 블러 배경 색상을 수정하는 코드
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = view.frame
-        // 초기값blur 꺼두기
-        
         visualEffectView.translatesAutoresizingMaskIntoConstraints = false
-        
         visualEffectView.alpha = 0.0
         visualEffectView.isHidden = true
-
         return visualEffectView
     }()
     
@@ -94,7 +86,7 @@ final class DetailViewController: UIViewController {
         view.backgroundColor = .systemGray6
 
         setContraints()
-        setupNaviBar()
+        setupPlusNaviBar()
         setGestureNavi()
         setGestureTextView()
     }
@@ -103,9 +95,8 @@ final class DetailViewController: UIViewController {
         print(#fileID, #function, #line, "칸트")
     }
     
-    // MARK: - Helpers
-    
-    func setupNaviBar() {
+    // MARK: - setup
+    func setupPlusNaviBar() {
         // 네비게이션바 우측에 Plus 버튼 만들기
         let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
         editButton.tintColor = .black
@@ -123,45 +114,22 @@ final class DetailViewController: UIViewController {
         // TextView 가리기 on/off
         let textHideButton = UITapGestureRecognizer(target: self, action: #selector(textHideSelector))
         containerView.addGestureRecognizer(textHideButton)
-//memoTextView.addGestureRecognizer(textHideButton)
-        
-//        alpha속성을 사용해서 hide하기
-//        memoTextView.alpha = 1
-//        memoTextView.isUserInteractionEnabled = true
     }
     
     // MARK: - Actions
-    // Edit
     @objc func editButtonTapped() {
         let controller = PlusMemoryController(type: .editType)
         controller.memoData = self.memoData // ⭐️ 잘모르겠음..
-        
         navigationController?.pushViewController(controller, animated: true)
         print("DEBUG: plusButtonTapped")
     }
-    
-//    // 텍스트 숨기기 제스쳐
-//    @objc func textHideSelector() {
-////        memoTextView.isHidden.toggle()
-////        blurEffectView.isHidden.toggle()
-//
-//        UIView.animate(withDuration: 3) {
-//            self.memoTextView.isHidden.toggle()
-//            self.blurEffectView.isHidden.toggle()
-//        }
-//
-//
-////        alpha속성을 사용해서 hide하기
-////        memoTextView.alpha = memoTextView.alpha == 0 ? 1 : 0
-////        memoTextView.isUserInteractionEnabled = !memoTextView.isUserInteractionEnabled
-//    }
-    
+        
     // 텍스트 숨기기 제스쳐
     @objc func textHideSelector() {
         let duration = 0.7
         let textDuration = 1.0
         
-        // ⭐️ 추가 공부 필요
+        // ⭐️ 추가 공부 필요 !!
         if blurEffectView.alpha == 0.0 {
             blurEffectView.isHidden = false
             UIView.animate(withDuration: duration) {
@@ -191,8 +159,6 @@ final class DetailViewController: UIViewController {
     
     // 네비게이션 바 숨기기 제스쳐
     @objc func naviTabHide() {
-        // view.backgroundColor = .yellow
-        
         // 네비게이션 바가 숨겨져 있는 경우 보이도록 함
         if navigationController?.isNavigationBarHidden == true {
             navigationController?.setNavigationBarHidden(false, animated: true)
@@ -202,13 +168,6 @@ final class DetailViewController: UIViewController {
             navigationController?.setNavigationBarHidden(true, animated: true)
         }
     }
-        
-   
-    
-    // 화면 터치 키보드 내리기 (첫번째 responder가 될수 있는것 종료)
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.endEditing(true)
-//    }
     
     // MARK: - AutoLayout
     func setContraints() {

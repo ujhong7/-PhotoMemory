@@ -10,7 +10,6 @@ import UIKit
 class MainTabController: UITabBarController {
     
     // MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,7 +17,6 @@ class MainTabController: UITabBarController {
     }
     
     // MARK: - Helpers
-    
     func configureViewControllers() {
         view.backgroundColor = .white
         
@@ -45,7 +43,5 @@ class MainTabController: UITabBarController {
 
         return nav
     }
-    
-    
     
 }

@@ -8,9 +8,8 @@
 import UIKit
 import PhotosUI
 import CoreData
-
+ 
 // 생성할때도 쓰고, 수정할때도 쓰고
-
 enum MemoType {
     case createType
     case editType
@@ -18,19 +17,15 @@ enum MemoType {
 }
 
 class PlusMemoryController: UITableViewController {
-    
     let memoManager = CoreDataManager.shared
-    
+    var memoType: MemoType = .none
     var memoData: MemoData?  {
         didSet {
             configureUI()
         }
     }
     
-    var memoType: MemoType = .none
-    
     // MARK: - Properties
-    
     private lazy var memoImage: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
@@ -69,9 +64,8 @@ class PlusMemoryController: UITableViewController {
         return view
     }()
     
-    
-    // 애니메이션을 위한 속성
-    var imageViewTopConstraint: NSLayoutConstraint!
+    // 애니메이션을 위한 속성 (이거뭐임?)
+    // var imageViewTopConstraint: NSLayoutConstraint!
     
     // MARK: - LifeCycle
     convenience init(type: MemoType){
@@ -79,24 +73,23 @@ class PlusMemoryController: UITableViewController {
         self.memoType = type
     }
     
-    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         setContraints()
         configureUI()
-        setGesture()
+        photoSelectGesture()
         setupNotification()
         memoTextView.delegate = self
     }
     
-    func setGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handlePhotoSelect))
+    func photoSelectGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(photoSelect))
         memoImage.isUserInteractionEnabled = true
         memoImage.addGestureRecognizer(tapGesture)
     }
     
-    // MARK: - 노티피케이션 셋팅 (키보드)
+    // TODO: - 노티피케이션 셋팅 (키보드) 
     func setupNotification(){
         // 노티피케이션의 등록
         // (OS차원에서 어떤 노티피케이션이 발생하는지 이미 정해져 있음)
@@ -105,8 +98,7 @@ class PlusMemoryController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(moveDownAction),
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
-    // MARK: - 키보드가 나타날때와 내려갈때 에니메이션
+
     @objc func moveUpAction(){
 //        NSLayoutConstraint.activate([
 //            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: -30), // ⭐️
@@ -126,8 +118,7 @@ class PlusMemoryController: UITableViewController {
     }
     
     // MARK: - Actions
-    
-    @objc func handlePhotoSelect() {
+    @objc func photoSelect() {
         print(#function)
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -147,14 +138,7 @@ class PlusMemoryController: UITableViewController {
                 
                 // 다시 전화면으로 돌아가기
                 print(#fileID, #function, #line, "칸트")
-                
-                // self.navigationController?.rootpopViewController(animated: true) // 🔵
                 self.navigationController?.popToRootViewController(animated: true)
-                // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-                // 수정하고 pop했을때 detailVC로 가는게 아니라 detailVC 거치고 PlusMemortController로 간다.. 뭐가 잘못일까 🔴
-                // edit들어가서 ->  삭제  -> 삭제는되는데 detailVC 화면뜸 -> 여기서 edit 누르면 앱죽음.. 🔴
-                // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-
             }
              
         // 기존데이터가 없을때 ===> 새로운 데이터 생성
@@ -163,7 +147,6 @@ class PlusMemoryController: UITableViewController {
             guard memoText != "텍스트를 여기에 입력하세요." else { return print("텍스트를 입력하세요.")}
             guard  memoImage.image != UIImage(named: "plus_photo") else { return print("이미지 없음") }
             guard let memoImageData = memoImage.image?.pngData() else { return print("이미지 없음")}
-            // 🔴 이미지가 늘 설정되어있기 때문에 이미지가 없을수가 없다.......
             
             memoManager.saveMemoData(memoText: memoText, memoPhoto: memoImageData) { [weak self] isValid in
                 if isValid == true {
@@ -186,19 +169,15 @@ class PlusMemoryController: UITableViewController {
     
     // 지우기 버튼
     @objc func deleteButtonTapped() {
-        print("DEBUG: deleteButtonTapped")
-        
+        print(#function)
         memoManager.deleteToDo(data: memoData!) {
             print("데이터 삭제 완료")
         }
-        // 다시 전화면으로 돌아가기
         self.navigationController?.popToRootViewController(animated: true)
     }
     
     // MARK: - AutoLayout
-    
     func setContraints() {
-        
         view.addSubview(containerView)
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -206,7 +185,6 @@ class PlusMemoryController: UITableViewController {
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)      
         ])
-        
         
         view.addSubview(memoImage)
         NSLayoutConstraint.activate([
@@ -217,8 +195,7 @@ class PlusMemoryController: UITableViewController {
             memoImage.heightAnchor.constraint(equalToConstant: 350)
         ])
         
-        
-        imageViewTopConstraint = memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
+       // imageViewTopConstraint = memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
         
         view.addSubview(memoTextView)
         NSLayoutConstraint.activate([
@@ -238,7 +215,6 @@ class PlusMemoryController: UITableViewController {
     }
     
     // MARK: - Helpers
-    
     func configureUI() {
         // 기존데이터가 있을때
         if let memoData = self.memoData {
@@ -261,22 +237,18 @@ class PlusMemoryController: UITableViewController {
             memoTextView.textColor = .lightGray
         }
     }
-//
+
 //    // 다른 곳을 터치하면 키보드 내리기
 //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        view.endEditing(true)
 //    }
-    
 }
 
-
 // MARK: - UITextViewDelegate
-
 extension PlusMemoryController: UITextViewDelegate {
-    // 입력을 시작할때
     // (텍스트뷰는 플레이스홀더가 따로 있지 않아서, 플레이스 홀더처럼 동작하도록 직접 구현)
-    
     // TODO: - 키보드 올라올때 텍스트창 위로 올라갈 수 있도록. 입력 종료되면 기존값으로 돌아가기
+    // 입력시작
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "텍스트를 여기에 입력하세요." {
             textView.text = ""
@@ -305,16 +277,12 @@ extension PlusMemoryController: UITextViewDelegate {
     }
 }
 
-
 // MARK: - UIImagePickerControllerDelegate
-
 extension PlusMemoryController:  UIImagePickerControllerDelegate , UINavigationControllerDelegate {
     // 사진 넣기 설정
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
-        
         memoImage.image = selectedImage
-        
         self.dismiss(animated: true, completion: nil)
     }
 }
