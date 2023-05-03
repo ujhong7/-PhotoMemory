@@ -23,8 +23,8 @@ class CalendarCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        print(#fileID, #function, #line, "칸트")
         super.prepareForReuse()
+        self.backgroundColor = .white
     }
     
     func update(day: String) {
@@ -37,8 +37,6 @@ class CalendarCollectionViewCell: UICollectionViewCell {
         layer.masksToBounds = true
         layer.borderWidth = 0.5
         layer.borderColor = UIColor.lightGray.cgColor
-        
-        self.backgroundColor = .white
         
         self.addSubview(self.dayLabel)
         // dayLabel.text = "0"
