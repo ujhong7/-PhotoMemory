@@ -15,9 +15,7 @@ class FeedCell: UICollectionViewCell {
         }
     }
     
-    
     // MARK: - LifeCycle
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         // backgroundColor = .red
