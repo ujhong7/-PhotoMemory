@@ -22,10 +22,14 @@ class CalendarCollectionViewCell: UICollectionViewCell {
         self.configure()
     }
     
+    override func prepareForReuse() {
+        print(#fileID, #function, #line, "칸트")
+        super.prepareForReuse()
+    }
+    
     func update(day: String) {
-           self.dayLabel.text = day
-        
-       }
+        self.dayLabel.text = day
+    }
     
     private func configure() {
         // 셀 테두리
@@ -33,6 +37,8 @@ class CalendarCollectionViewCell: UICollectionViewCell {
         layer.masksToBounds = true
         layer.borderWidth = 0.5
         layer.borderColor = UIColor.lightGray.cgColor
+        
+        self.backgroundColor = .white
         
         self.addSubview(self.dayLabel)
         // dayLabel.text = "0"
@@ -44,8 +50,9 @@ class CalendarCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    private func aaa() {
+    func existData() {
        // calender
+        self.backgroundColor = .blue
     }
     
     

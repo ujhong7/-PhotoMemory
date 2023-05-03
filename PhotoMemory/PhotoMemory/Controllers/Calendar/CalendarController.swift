@@ -23,13 +23,17 @@ final class CalendarController: UIViewController {
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     private let calendar = Calendar.current
-    private let dateFormatter = DateFormatter()
+    private let dateFormatter = DateFormatter() // 전역변수 ⭐️
     private var calendarDate = Date()
     private var days = [String]()
+    
+    // MARK: - MemoData ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+    private var memo: [MemoData] = [MemoData]() // 새로운 객체 생성이자 전역변수
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        fetchMemo() // fetch 라는건 보통은 API 호출을 통해서 가지고 오는 데이터를 작성할때 사용하는 메서드
         configure()
     }
     
@@ -39,6 +43,10 @@ final class CalendarController: UIViewController {
         collectionView.reloadData()
         // DetailViewController에서 tabBar지운거 다시 복원
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func fetchMemo() {
+        memo = memoManager.getMemoListFromCoreData()
     }
     
     private func configure() {
@@ -189,9 +197,46 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         return days.count
     }
     
+    // ⭐️⭐️⭐️ 내가 원하는대로 셀을 커스텀하고 싶을땐? -> cellForItemAt 을 통해 접근해보기
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
+        
+        
+        cell.prepareForReuse()
         cell.update(day: days[indexPath.item])
+        
+        // TODO: - date
+        let customDateFormatter = DateFormatter() // 지역변수 ⭐️
+        customDateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        // 이거는 현재 캘린더의 날짜를 확인할 수 있는 코드
+        let date = customDateFormatter.string(from: self.calendarDate)
+        print(#fileID, #function, #line, "현재의 날짜, date: \(date)")
+        
+        // 코어데이터 메모에 저장된 날짜는 Date() 타입
+        // 현재 작업된건 String 타입
+        // Date() vs Date() 비교는 뭔가 애매한 점이 있음
+        
+        //customDateFormatter.string(from: memo[indexPath.row].date!)
+        
+        // indexPath.row 갯수는 days.count 만큼 숫자가 증가하는것
+        // 메모데이터 0
+        // 메모데이터 1
+        // 메모데이터 2
+        // 메모데이터 3
+        // 메모데이터 4
+        // 메모데이터 5
+        // 메모데이터 6 <- index Error
+        
+        
+        if indexPath.row <= memo.count - 1 {
+            if date == customDateFormatter.string(from: memo[indexPath.row].date!) {
+                print(#fileID, #function, #line, "동일한 메모 있는걸 확인함")
+                // cell 작업 진행
+                cell.existData()
+            }
+        }
+
         return cell
     }
     
@@ -209,28 +254,30 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
     // 셀 선택 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
          
+         // 메모에 날짜 데이터가 없으면? 그냥 종료해버려
+         guard memo[indexPath.row].date != nil else { return }
+         
+         
+         // 그게 아니라면 선택된 셀에 대한 로직을 넣어줘
          
          // date를 기준으로..선택
-         
-         
-         
          // 셀이 선택된 경우 <메모가 기록된 날, 기록되지 않은 날> 두 가지 케이스로 나뉨
-         if indexPath.row < memoManager.getMemoListFromCoreData().count {
-                // 데이터가 있는 셀 클릭한 경우
-                let current = memoManager.getMemoListFromCoreData()[indexPath.row]
-                let detailViewController = DetailViewController(memo: current)
-                detailViewController.memoData = current
-                
-                navigationController?.modalTransitionStyle = .partialCurl
-                navigationController?.modalPresentationStyle = .overFullScreen
-                navigationController?.pushViewController(detailViewController, animated: true)
-            } else {
-                // 데이터가 없는 셀 클릭한 경우
-                let noDataViewController = NoDataViewController()
-                navigationController?.modalTransitionStyle = .partialCurl
-                navigationController?.modalPresentationStyle = .overFullScreen
-                navigationController?.pushViewController(noDataViewController, animated: true)
-            }
+//         if indexPath.row < memoManager.getMemoListFromCoreData().count {
+//                // 데이터가 있는 셀 클릭한 경우
+//                let current = memoManager.getMemoListFromCoreData()[indexPath.row]
+//                let detailViewController = DetailViewController(memo: current)
+//                detailViewController.memoData = current
+//
+//                navigationController?.modalTransitionStyle = .partialCurl
+//                navigationController?.modalPresentationStyle = .overFullScreen
+//                navigationController?.pushViewController(detailViewController, animated: true)
+//            } else {
+//                // 데이터가 없는 셀 클릭한 경우
+//                let noDataViewController = NoDataViewController()
+//                navigationController?.modalTransitionStyle = .partialCurl
+//                navigationController?.modalPresentationStyle = .overFullScreen
+//                navigationController?.pushViewController(noDataViewController, animated: true)
+//            }
     }
     
 }
