@@ -60,6 +60,17 @@ final class DetailViewController: UIViewController {
         return textView
     }()
     
+    private lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일"
+        if let date = memoData?.date {
+            label.text = formatter.string(from: date)
+        }
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var blurEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .regular) // 블러 배경 색상을 수정하는 코드
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
@@ -178,6 +189,12 @@ final class DetailViewController: UIViewController {
             memoImage.widthAnchor.constraint(equalToConstant: 400),
             memoImage.heightAnchor.constraint(equalToConstant: 400)
         ])
+        
+        view.addSubview(dateLabel)
+           NSLayoutConstraint.activate([
+               dateLabel.bottomAnchor.constraint(equalTo: memoImage.topAnchor, constant: -5),
+               dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
+           ])
         
         view.addSubview(containerView)
         NSLayoutConstraint.activate([
