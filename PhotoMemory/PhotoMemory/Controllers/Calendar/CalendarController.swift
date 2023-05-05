@@ -200,18 +200,16 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
     // ⭐️⭐️⭐️ 내가 원하는대로 셀을 커스텀하고 싶을땐? -> cellForItemAt 을 통해 접근해보기
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
-        
-        
-        cell.prepareForReuse()
+
         cell.update(day: days[indexPath.item])
         
         // TODO: - date
         let customDateFormatter = DateFormatter() // 지역변수 ⭐️
-        customDateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        customDateFormatter.dateFormat = "d"
         
         // 이거는 현재 캘린더의 날짜를 확인할 수 있는 코드
-        let date = customDateFormatter.string(from: self.calendarDate)
-        print(#fileID, #function, #line, "현재의 날짜, date: \(date)")
+        //let date = customDateFormatter.string(from: self.calendarDate)
+        //print(#fileID, #function, #line, "현재의 날짜, date: \(date)")
         
         // 코어데이터 메모에 저장된 날짜는 Date() 타입
         // 현재 작업된건 String 타입
@@ -228,15 +226,16 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         // 메모데이터 5
         // 메모데이터 6 <- index Error
         
+        var checkValue: Int = 0
         
-        if indexPath.row <= memo.count - 1 {
-            if date == customDateFormatter.string(from: memo[indexPath.row].date!) {
-                print(#fileID, #function, #line, "동일한 메모 있는걸 확인함")
-                // cell 작업 진행
-                cell.existData()
+        if memo.count != checkValue {
+            for memoData in memo {
+                if let savedDate = memoData.date, days[indexPath.item] == customDateFormatter.string(from: savedDate) {
+                    cell.existData()
+                    checkValue += 1
+                }
             }
         }
-
         return cell
     }
     
