@@ -201,36 +201,36 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
 
+        cell.prepareForReuse()
         cell.update(day: days[indexPath.item])
         
         // TODO: - date
         let customDateFormatter = DateFormatter() // 지역변수 ⭐️
+        let yearMonthFormatter = DateFormatter()
+        yearMonthFormatter.dateFormat =  "yyyy년 MM월" // 🔴
         customDateFormatter.dateFormat = "d"
         
-        // 이거는 현재 캘린더의 날짜를 확인할 수 있는 코드
-        //let date = customDateFormatter.string(from: self.calendarDate)
-        //print(#fileID, #function, #line, "현재의 날짜, date: \(date)")
+        // 기존 방법
+        // 계속해서 증가되는 값인 indexPath.row 와 memo[indexPath.row] 를 비교하려 했음
+        // 이렇게 되면 memo[indexPath.row] 에서 인덱스 에러가 나게됨.
         
-        // 코어데이터 메모에 저장된 날짜는 Date() 타입
-        // 현재 작업된건 String 타입
-        // Date() vs Date() 비교는 뭔가 애매한 점이 있음
+        // indexPath.row -> 0, memo[0]
+        // indexPath.row -> 1, memo[1]
+        // indexPath.row -> 2, memo[2]
+        // indexPath.row -> 3, memo[3]
+        // indexPath.row -> 4, memo[4]
         
-        //customDateFormatter.string(from: memo[indexPath.row].date!)
         
-        // indexPath.row 갯수는 days.count 만큼 숫자가 증가하는것
-        // 메모데이터 0
-        // 메모데이터 1
-        // 메모데이터 2
-        // 메모데이터 3
-        // 메모데이터 4
-        // 메모데이터 5
-        // 메모데이터 6 <- index Error
+        // 예를들어 너가 저장해둔 메모가 3개 있다.
+        // 그러면 memo[3]을 접근할 수 있을까? > 인덱스 에러가 남
         
+        // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️고쳐야함⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
         var checkValue: Int = 0
+        
         
         if memo.count != checkValue {
             for memoData in memo {
-                if let savedDate = memoData.date, days[indexPath.item] == customDateFormatter.string(from: savedDate) {
+                if let savedDate = memoData.date, days[indexPath.item] == customDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) { // 조건문에 년,달에 관한 데이터 추가 필요⭐️⭐️⭐️⭐️
                     cell.existData()
                     checkValue += 1
                 }
@@ -254,7 +254,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
          
          // 메모에 날짜 데이터가 없으면? 그냥 종료해버려
-         guard memo[indexPath.row].date != nil else { return }
+        // guard memo[indexPath.row].date != nil else { return }
          
          
          // 그게 아니라면 선택된 셀에 대한 로직을 넣어줘
