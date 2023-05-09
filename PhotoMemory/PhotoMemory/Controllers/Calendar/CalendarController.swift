@@ -210,28 +210,13 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         yearMonthFormatter.dateFormat =  "yyyy년 MM월" // 🔴
         customDateFormatter.dateFormat = "d"
         
-        // 기존 방법
-        // 계속해서 증가되는 값인 indexPath.row 와 memo[indexPath.row] 를 비교하려 했음
-        // 이렇게 되면 memo[indexPath.row] 에서 인덱스 에러가 나게됨.
-        
-        // indexPath.row -> 0, memo[0]
-        // indexPath.row -> 1, memo[1]
-        // indexPath.row -> 2, memo[2]
-        // indexPath.row -> 3, memo[3]
-        // indexPath.row -> 4, memo[4]
-        
-        
-        // 예를들어 너가 저장해둔 메모가 3개 있다.
-        // 그러면 memo[3]을 접근할 수 있을까? > 인덱스 에러가 남
-        
-        // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️고쳐야함⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
         var checkValue: Int = 0
-        
         
         if memo.count != checkValue {
             for memoData in memo {
-                if let savedDate = memoData.date, days[indexPath.item] == customDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) { // 조건문에 년,달에 관한 데이터 추가 필요⭐️⭐️⭐️⭐️
+                if let savedDate = memoData.date, days[indexPath.item] == customDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
                     cell.existData()
+                    fetchMemo()
                     checkValue += 1
                 }
             }
@@ -250,33 +235,34 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         return .zero
     }
     
-    // 셀 선택 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-         
-         // 메모에 날짜 데이터가 없으면? 그냥 종료해버려
-        // guard memo[indexPath.row].date != nil else { return }
-         
-         
-         // 그게 아니라면 선택된 셀에 대한 로직을 넣어줘
-         
-         // date를 기준으로..선택
-         // 셀이 선택된 경우 <메모가 기록된 날, 기록되지 않은 날> 두 가지 케이스로 나뉨
-//         if indexPath.row < memoManager.getMemoListFromCoreData().count {
-//                // 데이터가 있는 셀 클릭한 경우
-//                let current = memoManager.getMemoListFromCoreData()[indexPath.row]
-//                let detailViewController = DetailViewController(memo: current)
-//                detailViewController.memoData = current
-//
-//                navigationController?.modalTransitionStyle = .partialCurl
-//                navigationController?.modalPresentationStyle = .overFullScreen
-//                navigationController?.pushViewController(detailViewController, animated: true)
-//            } else {
-//                // 데이터가 없는 셀 클릭한 경우
-//                let noDataViewController = NoDataViewController()
-//                navigationController?.modalTransitionStyle = .partialCurl
-//                navigationController?.modalPresentationStyle = .overFullScreen
-//                navigationController?.pushViewController(noDataViewController, animated: true)
-//            }
+    // 셀 선택 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function)
+        print("Selected cell at index: \(indexPath.item)번째 셀")
+        print("Selected cell at days index: \(days[indexPath.item])일")
+        
+        let selectedDate = days[indexPath.item]
+        let dayDateFormatter = DateFormatter()
+        let yearMonthFormatter = DateFormatter()
+        yearMonthFormatter.dateFormat =  "yyyy년 MM월"
+        dayDateFormatter.dateFormat = "d"
+        
+        let memoList = memoManager.getMemoListFromCoreData()
+        
+        let filteredMemoList = memoList.filter { memoData in
+            if let savedDate = memoData.date, selectedDate == dayDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
+                return true
+            }
+            return false
+        }
+        
+        guard let memoData = filteredMemoList.first else {
+            return
+        }
+        
+        let detailViewController = DetailViewController()
+        detailViewController.memoData = memoData
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
 }

@@ -12,8 +12,6 @@ import CoreData
 
 final class CoreDataManager {
     
-   
-    
     // 싱글톤
     static let shared = CoreDataManager()
     private init() {}
