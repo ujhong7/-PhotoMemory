@@ -98,8 +98,8 @@
 			children = (
 				1D39993929F0E50B007BC059 /* MainTabController.swift */,
 				1DA9D80C29FF830B002C499C /* Feed */,
+				1DF286A12A0BE74900D03A6E /* Second */,
 				1DE9C9002A00DBCE004AA311 /* Calendar */,
-				1D39993F29F0E66B007BC059 /* secondController.swift */,
 				1D3DBFD12A0B39B700CB9DC1 /* Search */,
 				1D39991E29F0CADD007BC059 /* ViewController.swift */,
 			);
@@ -157,6 +157,14 @@
 				1DE9C9052A022F5D004AA311 /* NoDataViewController.swift */,
 			);
 			path = Calendar;
+			sourceTree = "<group>";
+		};
+		1DF286A12A0BE74900D03A6E /* Second */ = {
+			isa = PBXGroup;
+			children = (
+				1D39993F29F0E66B007BC059 /* secondController.swift */,
+			);
+			path = Second;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

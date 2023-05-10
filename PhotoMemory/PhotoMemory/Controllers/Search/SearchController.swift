@@ -31,7 +31,16 @@ class SearchController: UIViewController, UISearchBarDelegate {
         configureSearchBar()
         configureCollectionView()
     }
-    //  뷰 컨트롤러의 뷰가 서브뷰들과 함께 레이아웃을 재배치 할 때 호출되는 메소드. 이 메소드는 뷰의 크기나 위치가 변경될 때마다 호출
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 뷰가 다시 나타날때, 테이블뷰를 리로드
+        collectionView.reloadData()
+        // DetailViewController에서 tabBar지운거 다시 복원
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    //  뷰 컨트롤러의 뷰가 서브뷰들과 함께 레이아웃을 재배치 할 때 호출되는 메소드. 이 메소드는 뷰의 크기나 위치가 변경될 때마다 호출 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
@@ -54,7 +63,7 @@ class SearchController: UIViewController, UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text {
               searchMemo(with: searchText)
-            print("🔎 '\(searchText)/(이)가 검색되었습니다.")
+            print("🔎 '\(searchText)'(이)가 검색되었습니다.")
           }
     }
     
@@ -89,6 +98,18 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // 추가 메서드
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: - DetailViewController 띄우기
+        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
+        let detailViewController = DetailViewController(memo: current)
+        detailViewController.memoData = current
+        
+        navigationController?.modalTransitionStyle = .partialCurl
+        navigationController?.modalPresentationStyle = .overFullScreen
+        navigationController?.pushViewController(detailViewController, animated: true)
+        
+        // searchMemoListFromCoreData 이부분 다시 확인 필요, 검색후 다시 이전 화면 안뜨는것 확인필요 ! ⭐️
+    }
     
 }
 
