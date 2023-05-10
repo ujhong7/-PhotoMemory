@@ -18,7 +18,7 @@
 		1D39993729F0D07E007BC059 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39993629F0D07E007BC059 /* FeedCell.swift */; };
 		1D39993A29F0E50B007BC059 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39993929F0E50B007BC059 /* MainTabController.swift */; };
 		1D39993C29F0E5D1007BC059 /* CalendarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39993B29F0E5D1007BC059 /* CalendarController.swift */; };
-		1D39993E29F0E5E0007BC059 /* fourthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39993D29F0E5E0007BC059 /* fourthController.swift */; };
+		1D39993E29F0E5E0007BC059 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39993D29F0E5E0007BC059 /* SearchController.swift */; };
 		1D39994029F0E66B007BC059 /* secondController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39993F29F0E66B007BC059 /* secondController.swift */; };
 		1D39994429F105FE007BC059 /* PlusMemoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39994329F105FE007BC059 /* PlusMemoryController.swift */; };
 		1DDBD8C929F187FD00240906 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBD8C829F187FD00240906 /* CoreDataManager.swift */; };
@@ -41,7 +41,7 @@
 		1D39993629F0D07E007BC059 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		1D39993929F0E50B007BC059 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		1D39993B29F0E5D1007BC059 /* CalendarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarController.swift; sourceTree = "<group>"; };
-		1D39993D29F0E5E0007BC059 /* fourthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fourthController.swift; sourceTree = "<group>"; };
+		1D39993D29F0E5E0007BC059 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		1D39993F29F0E66B007BC059 /* secondController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secondController.swift; sourceTree = "<group>"; };
 		1D39994329F105FE007BC059 /* PlusMemoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMemoryController.swift; sourceTree = "<group>"; };
 		1DDBD8C829F187FD00240906 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 				1DA9D80C29FF830B002C499C /* Feed */,
 				1DE9C9002A00DBCE004AA311 /* Calendar */,
 				1D39993F29F0E66B007BC059 /* secondController.swift */,
-				1D39993D29F0E5E0007BC059 /* fourthController.swift */,
+				1D3DBFD12A0B39B700CB9DC1 /* Search */,
 				1D39991E29F0CADD007BC059 /* ViewController.swift */,
 			);
 			path = Controllers;
@@ -129,6 +129,14 @@
 				1D39991C29F0CADD007BC059 /* SceneDelegate.swift */,
 			);
 			path = Utilis;
+			sourceTree = "<group>";
+		};
+		1D3DBFD12A0B39B700CB9DC1 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				1D39993D29F0E5E0007BC059 /* SearchController.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		1DA9D80C29FF830B002C499C /* Feed */ = {
@@ -229,7 +237,7 @@
 				1D39991D29F0CADD007BC059 /* SceneDelegate.swift in Sources */,
 				1D39992529F0CADD007BC059 /* PhotoMemory.xcdatamodeld in Sources */,
 				1DDBD8C929F187FD00240906 /* CoreDataManager.swift in Sources */,
-				1D39993E29F0E5E0007BC059 /* fourthController.swift in Sources */,
+				1D39993E29F0E5E0007BC059 /* SearchController.swift in Sources */,
 				1DE9C9022A0148A3004AA311 /* CalendarCollectionViewCell.swift in Sources */,
 				1D39994029F0E66B007BC059 /* secondController.swift in Sources */,
 				1DE9C9062A022F5D004AA311 /* NoDataViewController.swift in Sources */,

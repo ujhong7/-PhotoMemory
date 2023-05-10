@@ -171,7 +171,30 @@ final class CoreDataManager {
     }
     
     
-    
+    // MARK: - [Search]
+    func searchMemoListFromCoreData(with searchText: String) -> [MemoData] {
+        var memoList: [MemoData] = []
+        // 임시저장소 있는지 확인
+        if let context = context {
+            // 요청서
+            let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
+            // 정렬순서를 정해서 요청서에 넘겨주기
+            let dateOrder = NSSortDescriptor(key: "date", ascending: false)
+            request.sortDescriptors = [dateOrder]
+            
+            // 검색어를 포함하는 MemoData 객체 찾기
+            let predicate = NSPredicate(format: "text CONTAINS[c] %@", searchText)
+            request.predicate = predicate
+            
+            do {
+                // 요청 결과 가져오기
+                memoList = try context.fetch(request) as? [MemoData] ?? []
+            } catch {
+                print("Failed to fetch memo data: \(error.localizedDescription)")
+            }
+        }
+        return memoList
+    }
     
     
     
