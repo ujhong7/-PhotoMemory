@@ -40,11 +40,11 @@ class PlusMemoryController: UITableViewController {
         return textView
     }()
     
-    private let addressTextView: UITextView  = {
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
+//    private let addressTextView: UITextView  = {
+//        let textView = UITextView()
+//        textView.translatesAutoresizingMaskIntoConstraints = false
+//        return textView
+//    }()
     
     // MARK: - 액션 버튼을 달때 항상 lazy 키워드로 작성해주기 ⭐️
     private lazy var saveButton: UIButton = {
@@ -91,6 +91,7 @@ class PlusMemoryController: UITableViewController {
     
     // TODO: - 노티피케이션 셋팅 (키보드) 
     func setupNotification(){
+        print(#function)
         // 노티피케이션의 등록
         // (OS차원에서 어떤 노티피케이션이 발생하는지 이미 정해져 있음)
         NotificationCenter.default.addObserver(self, selector: #selector(moveUpAction),
@@ -100,6 +101,7 @@ class PlusMemoryController: UITableViewController {
     }
 
     @objc func moveUpAction(){
+        print(#function)
 //        NSLayoutConstraint.activate([
 //            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: -30), // ⭐️
 //        ])
@@ -109,6 +111,7 @@ class PlusMemoryController: UITableViewController {
     }
     
     @objc func moveDownAction(){
+        print(#function)
 //        NSLayoutConstraint.activate([
 //            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0), // ⭐️
 //        ])
@@ -254,17 +257,7 @@ extension PlusMemoryController: UITextViewDelegate {
             textView.text = ""
             textView.textColor = .black
         }
-        
-        // TODO: - 생각해볼것
-        // 이름(5자미만 가능하개), 주소(@gmail.com)
-//        switch textView {
-//        case memoTextView:
-//
-//        case addressTextView:
-//
-//        default
-//            break
-//        }
+
     }
     
     // 입력이 끝났을때

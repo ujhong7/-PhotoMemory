@@ -18,7 +18,6 @@ final class CalendarController: UIViewController {
     private lazy var titleLabel = UILabel()
     private lazy var previousButton = UIButton()
     private lazy var nextButton = UIButton()
-    private lazy var todayButton = UIButton()
     private lazy var weekStackView = UIStackView()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -55,7 +54,6 @@ final class CalendarController: UIViewController {
        configureTitleLabel()
        configurePreviousButton()
        configureNextButton()
-       configureTodayButton()
        configureWeekStackView()
        configureWeekLabel()
        configureCollectionView()
@@ -124,20 +122,7 @@ final class CalendarController: UIViewController {
         ])
     }
     
-    private func configureTodayButton() {
-       contentView.addSubview(todayButton)
-       todayButton.setTitle("Today", for: .normal)
-       todayButton.setTitleColor(.systemBackground, for: .normal)
-       todayButton.backgroundColor = .label
-       todayButton.layer.cornerRadius = 5
-       todayButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-           todayButton.widthAnchor.constraint(equalToConstant: 60),
-           todayButton.heightAnchor.constraint(equalToConstant: 30),
-           todayButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-           todayButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor)
-        ])
-    }
+   
     
     private func configureWeekStackView() {
        contentView.addSubview(weekStackView)
@@ -250,6 +235,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         
         let memoList = memoManager.getMemoListFromCoreData()
         
+        // true인 요소들만 새로운 배열에 저장되어 filteredMemoList 변수에 할당됩니다.
         let filteredMemoList = memoList.filter { memoData in
             if let savedDate = memoData.date, selectedDate == dayDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
                 return true
