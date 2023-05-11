@@ -202,7 +202,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
 
         cell.prepareForReuse()
-        cell.update(day: days[indexPath.item])
+        cell.update(day: days[indexPath.item]) // ㅇㅇ
         
         // TODO: - date
         let customDateFormatter = DateFormatter() // 지역변수 ⭐️
@@ -216,6 +216,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             for memoData in memo {
                 if let savedDate = memoData.date, days[indexPath.item] == customDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
                     cell.existData()
+                    
                     fetchMemo()
                     checkValue += 1
                 }

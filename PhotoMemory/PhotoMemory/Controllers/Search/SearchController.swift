@@ -22,7 +22,7 @@ class SearchController: UIViewController, UISearchBarDelegate {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .lightGray
+        collectionView.backgroundColor = .white
         return collectionView
     }()
     
@@ -48,7 +48,7 @@ class SearchController: UIViewController, UISearchBarDelegate {
     
     private func configureSearchBar() {
         searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
-        searchBar.placeholder = "검색어를 입력하세요"
+        searchBar.placeholder = "검색어를 입력해 메모를 찾으세요"
         searchBar.delegate = self
         navigationItem.titleView = searchBar
     }
@@ -73,6 +73,10 @@ class SearchController: UIViewController, UISearchBarDelegate {
         collectionView.reloadData()
     }
 
+    // 검색바에 글씨를 입력할 때마다  메소드가 호출되어 검색 결과가 업데이트
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+         searchMemo(with: searchText)
+     }
     
 }
 

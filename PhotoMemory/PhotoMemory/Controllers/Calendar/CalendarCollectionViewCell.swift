@@ -24,6 +24,14 @@ class CalendarCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        // 셀의 서브 레이어를 순회하며 circleLayer 인스턴스를 찾아 삭제합니다.
+        layer.sublayers?.forEach {
+            if let circleLayer = $0 as? CAShapeLayer {
+                circleLayer.removeFromSuperlayer()
+            }
+        }
+        
         self.backgroundColor = .white
     }
     
@@ -49,9 +57,19 @@ class CalendarCollectionViewCell: UICollectionViewCell {
     }
     
     func existData() {
-        backgroundColor = .blue
-       
+        backgroundColor = .white
+        
+        let centerPoint = CGPoint(x: bounds.midX, y: bounds.midY)
+        let circlePath = UIBezierPath(arcCenter: centerPoint, radius: 2.5, startAngle: 0.0, endAngle: .pi * 2.0, clockwise: true)
+        
+        let circleLayer = CAShapeLayer()
+        circleLayer.path = circlePath.cgPath
+        circleLayer.fillColor = UIColor.gray.cgColor
+        
+        layer.addSublayer(circleLayer)
+        
     }
+
     
     
 }
