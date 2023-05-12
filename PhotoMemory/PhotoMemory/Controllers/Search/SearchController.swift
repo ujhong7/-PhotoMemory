@@ -10,7 +10,6 @@ import UIKit
 private let reuseIdentifier = "FeedCell"
 
 class SearchController: UIViewController, UISearchBarDelegate {
-    
     // MARK: - CoreData
     let memoManager = CoreDataManager.shared
     
@@ -18,7 +17,6 @@ class SearchController: UIViewController, UISearchBarDelegate {
     
     var searchResult: [MemoData] = []
 
-    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -61,31 +59,28 @@ class SearchController: UIViewController, UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print(#function)
         if let searchText = searchBar.text {
               searchMemo(with: searchText)
             print("🔎 '\(searchText)'(이)가 검색되었습니다.")
           }
     }
     
-    
     func searchMemo(with searchText: String) {
+        print(#function)
         searchResult = memoManager.searchMemoListFromCoreData(with: searchText)
         collectionView.reloadData()
     }
 
     // 검색바에 글씨를 입력할 때마다  메소드가 호출되어 검색 결과가 업데이트
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(#function)
+        print("\(searchText)✅")
          searchMemo(with: searchText)
      }
-    
 }
 
 extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-//    func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        return 1
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return searchResult.count
     }
@@ -95,7 +90,8 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
         //cell.backgroundColor = .blue
         
         // 셀에 모델(MemoData) 전달
-        let memoData = memoManager.getMemoListFromCoreData()
+//        let memoData = memoManager.getMemoListFromCoreData()
+        let memoData = searchResult
         cell.memoData = memoData[indexPath.row]
         cell.backgroundView = UIImageView(image: UIImage(data: memoData[indexPath.row].photo!)!)
         return cell
@@ -104,7 +100,8 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     // 추가 메서드
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // TODO: - DetailViewController 띄우기
-        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
+//        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
+        let current = searchResult[indexPath.row]
         let detailViewController = DetailViewController(memo: current)
         detailViewController.memoData = current
         
@@ -131,9 +128,7 @@ extension SearchController: UICollectionViewDelegateFlowLayout {
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             return 1
         }
-    
     }
-
 
 // MARK: - Search
 extension SearchController: UISearchResultsUpdating {
@@ -141,6 +136,4 @@ extension SearchController: UISearchResultsUpdating {
         guard let searchText = searchController.searchBar.text else { return }
         searchMemo(with: searchText)
     }
-
-
 }

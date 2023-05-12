@@ -40,15 +40,6 @@ class PlusMemoryController: UITableViewController {
         return textView
     }()
     
-//    lazy var stackView: UIStackView = {
-//       let stview = UIStackView(arrangedSubviews: <#T##[UIView]#>)
-//        stview.spacing = 10
-//        stview.axis = .vertical
-//        stview.distribution = .fill
-//        stview.alignment = .fill
-//        stview.translatesAutoresizingMaskIntoConstraints = false
-//        return stview
-//    }()
     // MARK: - 액션 버튼을 달때 항상 lazy 키워드로 작성해주기 ⭐️
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
@@ -60,15 +51,8 @@ class PlusMemoryController: UITableViewController {
         return button
     }()
     
-//    private let containerView: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = .black
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
-    
-    // 애니메이션을 위한 속성 (이거뭐임?)
-    // var imageViewTopConstraint: NSLayoutConstraint!
+    // (키보드 레이아웃) 애니메이션을 위한 속성
+    var memoImageTopConstraint: NSLayoutConstraint!
     
     // MARK: - LifeCycle
     convenience init(type: MemoType){
@@ -81,46 +65,17 @@ class PlusMemoryController: UITableViewController {
         view.backgroundColor = .green
         setContraints()
         configureUI()
-        photoSelectGesture()
+        setGesture()
         setupNotification()
         memoTextView.delegate = self
     }
     
-    func photoSelectGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(photoSelect))
+    func setGesture() {
+        let photoSelectGesture = UITapGestureRecognizer(target: self, action: #selector(photoSelect))
         memoImage.isUserInteractionEnabled = true
-        memoImage.addGestureRecognizer(tapGesture)
-    }
-    
-    // TODO: - 노티피케이션 셋팅 (키보드) 
-    func setupNotification(){
-        print(#function)
-        // 노티피케이션의 등록
-        // (OS차원에서 어떤 노티피케이션이 발생하는지 이미 정해져 있음)
-        NotificationCenter.default.addObserver(self, selector: #selector(moveUpAction),
-                                               name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(moveDownAction),
-                                               name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-
-    @objc func moveUpAction(){
-        print(#function)
-//        NSLayoutConstraint.activate([
-//            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: -30), // ⭐️
-//        ])
-//        UIImageView.animate(withDuration: 0.2) {
-//            self.memoImage.layoutIfNeeded()
-//        }
-    }
-    
-    @objc func moveDownAction(){
-        print(#function)
-//        NSLayoutConstraint.activate([
-//            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0), // ⭐️
-//        ])
-//        UIImageView.animate(withDuration: 0.2) {
-//            self.memoImage.layoutIfNeeded()
-//        }
+        memoImage.addGestureRecognizer(photoSelectGesture)
+        let dismissKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(dismissKeyboardGesture)
     }
     
     // MARK: - Actions
@@ -130,6 +85,10 @@ class PlusMemoryController: UITableViewController {
         picker.delegate = self
         picker.allowsEditing = true
         present(picker, animated: true, completion: nil)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @objc func saveButtonTapped() {
@@ -182,16 +141,43 @@ class PlusMemoryController: UITableViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
+    // TODO: - 노티피케이션 셋팅 (키보드)
+    func setupNotification(){
+        print(#function)
+        // 노티피케이션의 등록
+        // (OS차원에서 어떤 노티피케이션이 발생하는지 이미 정해져 있음)
+        NotificationCenter.default.addObserver(self, selector: #selector(moveUpAction),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(moveDownAction),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc func moveUpAction(){
+        print(#function)
+        memoImageTopConstraint.constant = -30
+          UIView.animate(withDuration: 0.2) {
+              self.view.layoutIfNeeded()
+          }
+    }
+    
+    @objc func moveDownAction(){
+        print(#function)
+        memoImageTopConstraint.constant = 30
+           UIView.animate(withDuration: 0.2) {
+               self.view.layoutIfNeeded()
+           }
+    }
+    
+    // MARK: - 소멸자 구현
+    // 옵저버 객체 사라질 수 있도록
+    deinit{
+        // 노티피케이션의 등록 해제 (해제안하면 계속 등록될 수 있음) ⭐️
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     // MARK: - AutoLayout
     func setContraints() {
-//        view.addSubview(containerView)
-//        NSLayoutConstraint.activate([
-//            containerView.topAnchor.constraint(equalTo: view.topAnchor),
-//            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//        ])
-        
         view.addSubview(memoImage)
         NSLayoutConstraint.activate([
             memoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -216,6 +202,13 @@ class PlusMemoryController: UITableViewController {
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
             saveButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        memoImageTopConstraint = memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
+
+        NSLayoutConstraint.activate([
+            memoImageTopConstraint,
+            view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
     
@@ -243,10 +236,10 @@ class PlusMemoryController: UITableViewController {
         }
     }
 
-//    // 다른 곳을 터치하면 키보드 내리기
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        view.endEditing(true)
-//    }
+    // 다른 곳을 터치하면 키보드 내리기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }
 
 // MARK: - UITextViewDelegate
@@ -259,7 +252,6 @@ extension PlusMemoryController: UITextViewDelegate {
             textView.text = ""
             textView.textColor = .black
         }
-
     }
     
     // 입력이 끝났을때
