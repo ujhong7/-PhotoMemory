@@ -98,7 +98,7 @@ final class DetailViewController: UIViewController {
 
         setContraints()
         setupPlusNaviBar()
-        setGestureNavi()
+        // setGestureNavi()
         setGestureTextView()
     }
     
@@ -115,11 +115,11 @@ final class DetailViewController: UIViewController {
     }
     
     // MARK: - setGesture
-    func setGestureNavi() {
-        // 네비게이션 바 안보이도록 하는 제스쳐
-        let naviTabHide = UITapGestureRecognizer(target: self, action: #selector(naviTabHide))
-        view.addGestureRecognizer(naviTabHide)
-    }
+//    func setGestureNavi() {
+//        // 네비게이션 바 안보이도록 하는 제스쳐
+//        let naviTabHide = UITapGestureRecognizer(target: self, action: #selector(naviTabHide))
+//        view.addGestureRecognizer(naviTabHide)
+//    }
     
     func setGestureTextView() {
         // TextView 가리기 on/off
@@ -168,17 +168,17 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    // 네비게이션 바 숨기기 제스쳐
-    @objc func naviTabHide() {
-        // 네비게이션 바가 숨겨져 있는 경우 보이도록 함
-        if navigationController?.isNavigationBarHidden == true {
-            navigationController?.setNavigationBarHidden(false, animated: true)
-        }
-        // 네비게이션 바가 보이는 경우 숨기도록 함
-        else {
-            navigationController?.setNavigationBarHidden(true, animated: true)
-        }
-    }
+//    // 네비게이션 바 숨기기 제스쳐
+//    @objc func naviTabHide() {
+//        // 네비게이션 바가 숨겨져 있는 경우 보이도록 함
+//        if navigationController?.isNavigationBarHidden == true {
+//            navigationController?.setNavigationBarHidden(false, animated: true)
+//        }
+//        // 네비게이션 바가 보이는 경우 숨기도록 함
+//        else {
+//            navigationController?.setNavigationBarHidden(true, animated: true)
+//        }
+//    }
     
     // MARK: - AutoLayout
     func setContraints() {

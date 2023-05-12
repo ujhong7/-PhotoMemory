@@ -48,7 +48,7 @@ class SearchController: UIViewController, UISearchBarDelegate {
     
     private func configureSearchBar() {
         searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
-        searchBar.placeholder = "검색을 통해 메모를 찾아보세요."
+        searchBar.placeholder = "검색을 통해 메모를 찾아보세요"
         searchBar.delegate = self
         navigationItem.titleView = searchBar
     }

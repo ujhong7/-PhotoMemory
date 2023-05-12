@@ -18,7 +18,7 @@ class MainTabController: UITabBarController {
     
     // MARK: - Helpers
     func configureViewControllers() {
-        view.backgroundColor = .white
+        view.backgroundColor = .green
         
         let layout = UICollectionViewFlowLayout()
         

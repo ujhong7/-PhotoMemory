@@ -40,12 +40,15 @@ class PlusMemoryController: UITableViewController {
         return textView
     }()
     
-//    private let addressTextView: UITextView  = {
-//        let textView = UITextView()
-//        textView.translatesAutoresizingMaskIntoConstraints = false
-//        return textView
+//    lazy var stackView: UIStackView = {
+//       let stview = UIStackView(arrangedSubviews: <#T##[UIView]#>)
+//        stview.spacing = 10
+//        stview.axis = .vertical
+//        stview.distribution = .fill
+//        stview.alignment = .fill
+//        stview.translatesAutoresizingMaskIntoConstraints = false
+//        return stview
 //    }()
-    
     // MARK: - 액션 버튼을 달때 항상 lazy 키워드로 작성해주기 ⭐️
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
@@ -57,12 +60,12 @@ class PlusMemoryController: UITableViewController {
         return button
     }()
     
-    private let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+//    private let containerView: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .black
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        return view
+//    }()
     
     // 애니메이션을 위한 속성 (이거뭐임?)
     // var imageViewTopConstraint: NSLayoutConstraint!
@@ -75,7 +78,7 @@ class PlusMemoryController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .green
         setContraints()
         configureUI()
         photoSelectGesture()
@@ -181,38 +184,37 @@ class PlusMemoryController: UITableViewController {
     
     // MARK: - AutoLayout
     func setContraints() {
-        view.addSubview(containerView)
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: view.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)      
-        ])
+//        view.addSubview(containerView)
+//        NSLayoutConstraint.activate([
+//            containerView.topAnchor.constraint(equalTo: view.topAnchor),
+//            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//        ])
         
         view.addSubview(memoImage)
         NSLayoutConstraint.activate([
             memoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0), // ⭐️
+            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 20), // ⭐️
             memoImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             memoImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             memoImage.heightAnchor.constraint(equalToConstant: 350)
         ])
         
-       // imageViewTopConstraint = memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
-        
         view.addSubview(memoTextView)
         NSLayoutConstraint.activate([
-            memoTextView.topAnchor.constraint(equalTo: memoImage.bottomAnchor, constant: 30),
+            memoTextView.topAnchor.constraint(equalTo: memoImage.bottomAnchor, constant: 20),
             memoTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             memoTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
-            memoTextView.heightAnchor.constraint(equalToConstant: 200)
+            memoTextView.heightAnchor.constraint(equalToConstant: 220)
         ])
         
         view.addSubview(saveButton)
         NSLayoutConstraint.activate([
-            saveButton.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 30),
+            saveButton.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 20),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
+            saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
             saveButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }

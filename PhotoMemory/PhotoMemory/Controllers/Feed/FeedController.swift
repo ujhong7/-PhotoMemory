@@ -98,8 +98,17 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         let detailViewController = DetailViewController(memo: current)
         detailViewController.memoData = current
         
+        // 네비게이션바 설정관련
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()  // 불투명으로
+        appearance.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
         navigationController?.modalTransitionStyle = .partialCurl
-        navigationController?.modalPresentationStyle = .overFullScreen
+        navigationController?.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
