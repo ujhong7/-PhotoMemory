@@ -78,6 +78,9 @@ class SearchController: UIViewController, UISearchBarDelegate {
         print("\(searchText)✅")
          searchMemo(with: searchText)
      }
+    
+    // 검색중 화면 터치하면 키보드 내려가도록하기 !!! 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+    
 }
 
 extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {

@@ -242,13 +242,22 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             }
             return false
         }
+//        이게 원래 코드! ✅
+//        guard let memoData = filteredMemoList.first else {
+//            return
+//        }
+//
+//        let detailViewController = DetailViewController()
+//        detailViewController.memoData = memoData
+//        navigationController?.pushViewController(detailViewController, animated: true)
         
-        guard let memoData = filteredMemoList.first else {
+        // 클릭한 셀에 데이터가 없는 경우 화면 전환을 실행하지 않습니다.
+        guard !filteredMemoList.isEmpty else {
             return
         }
         
-        let detailViewController = DetailViewController()
-        detailViewController.memoData = memoData
+        let detailViewController = MemosViewController()
+        detailViewController.memoData = filteredMemoList
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
