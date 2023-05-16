@@ -117,7 +117,7 @@ class PlusMemoryController: UITableViewController {
                 if isValid == true {
                     print("저장완료👍")
                     // 다시 전화면으로 돌아가기
-                    self?.navigationController?.popViewController(animated: true)
+                    self?.navigationController?.popToRootViewController(animated: true)
                 } else {
                     print("저장실패")
                 }

@@ -21,9 +21,10 @@
 		1D39993E29F0E5E0007BC059 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39993D29F0E5E0007BC059 /* SearchController.swift */; };
 		1D39994029F0E66B007BC059 /* secondController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39993F29F0E66B007BC059 /* secondController.swift */; };
 		1D39994429F105FE007BC059 /* PlusMemoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39994329F105FE007BC059 /* PlusMemoryController.swift */; };
+		1DD1A5D82A13A82900977A27 /* NoDataPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD1A5D72A13A82900977A27 /* NoDataPageViewController.swift */; };
 		1DDBD8C929F187FD00240906 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBD8C829F187FD00240906 /* CoreDataManager.swift */; };
 		1DE9C9022A0148A3004AA311 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE9C9012A0148A3004AA311 /* CalendarCollectionViewCell.swift */; };
-		1DE9C9062A022F5D004AA311 /* MemosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE9C9052A022F5D004AA311 /* MemosViewController.swift */; };
+		1DE9C9062A022F5D004AA311 /* DetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE9C9052A022F5D004AA311 /* DetailPageViewController.swift */; };
 		BE58A9DF29F6A8D20081A0EA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE58A9DE29F6A8D20081A0EA /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,9 +45,10 @@
 		1D39993D29F0E5E0007BC059 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		1D39993F29F0E66B007BC059 /* secondController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secondController.swift; sourceTree = "<group>"; };
 		1D39994329F105FE007BC059 /* PlusMemoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMemoryController.swift; sourceTree = "<group>"; };
+		1DD1A5D72A13A82900977A27 /* NoDataPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataPageViewController.swift; sourceTree = "<group>"; };
 		1DDBD8C829F187FD00240906 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		1DE9C9012A0148A3004AA311 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
-		1DE9C9052A022F5D004AA311 /* MemosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemosViewController.swift; sourceTree = "<group>"; };
+		1DE9C9052A022F5D004AA311 /* DetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageViewController.swift; sourceTree = "<group>"; };
 		BE58A9DE29F6A8D20081A0EA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				1D39993629F0D07E007BC059 /* FeedCell.swift */,
+				1DE9C9012A0148A3004AA311 /* CalendarCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -153,8 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				1D39993B29F0E5D1007BC059 /* CalendarController.swift */,
-				1DE9C9052A022F5D004AA311 /* MemosViewController.swift */,
-				1DE9C9012A0148A3004AA311 /* CalendarCollectionViewCell.swift */,
+				1DE9C9052A022F5D004AA311 /* DetailPageViewController.swift */,
+				1DD1A5D72A13A82900977A27 /* NoDataPageViewController.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -243,12 +246,13 @@
 				1D39993A29F0E50B007BC059 /* MainTabController.swift in Sources */,
 				1D39993229F0CFB2007BC059 /* FeedController.swift in Sources */,
 				1D39991D29F0CADD007BC059 /* SceneDelegate.swift in Sources */,
+				1DD1A5D82A13A82900977A27 /* NoDataPageViewController.swift in Sources */,
 				1D39992529F0CADD007BC059 /* PhotoMemory.xcdatamodeld in Sources */,
 				1DDBD8C929F187FD00240906 /* CoreDataManager.swift in Sources */,
 				1D39993E29F0E5E0007BC059 /* SearchController.swift in Sources */,
 				1DE9C9022A0148A3004AA311 /* CalendarCollectionViewCell.swift in Sources */,
 				1D39994029F0E66B007BC059 /* secondController.swift in Sources */,
-				1DE9C9062A022F5D004AA311 /* MemosViewController.swift in Sources */,
+				1DE9C9062A022F5D004AA311 /* DetailPageViewController.swift in Sources */,
 				1D39993729F0D07E007BC059 /* FeedCell.swift in Sources */,
 				1D39994429F105FE007BC059 /* PlusMemoryController.swift in Sources */,
 				1D39993C29F0E5D1007BC059 /* CalendarController.swift in Sources */,

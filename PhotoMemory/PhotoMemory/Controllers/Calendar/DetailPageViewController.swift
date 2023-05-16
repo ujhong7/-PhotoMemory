@@ -1,17 +1,20 @@
 import UIKit
 
-class MemosViewController: UIViewController {
+class DetailPageViewController: UIViewController {
 
     private let memoManager = CoreDataManager.shared
 
     var memoData: [MemoData]?
+    
+    
     private var pageViewController: UIPageViewController!
     private var currentIndex: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
-
+//        view.backgroundColor = .gray
+        
         configurePageViewController()
     }
 
@@ -40,6 +43,7 @@ class MemosViewController: UIViewController {
         }
     }
 
+    // ⭐️
     func viewControllerAtIndex(_ index: Int) -> DetailViewController? {
         guard let memoData = memoData, memoData.count > 0 else {
             return nil
@@ -55,7 +59,7 @@ class MemosViewController: UIViewController {
 }
 
 // UIPageViewControllerDataSource 프로토콜 구현
-extension MemosViewController: UIPageViewControllerDataSource {
+extension DetailPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
             guard let memoData = memoData, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != 0 else {
                 return nil

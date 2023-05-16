@@ -186,8 +186,8 @@ final class DetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             memoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             memoImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            memoImage.widthAnchor.constraint(equalToConstant: 400),
-            memoImage.heightAnchor.constraint(equalToConstant: 400)
+            memoImage.widthAnchor.constraint(equalToConstant: 390),
+            memoImage.heightAnchor.constraint(equalToConstant: 390)
         ])
         
         view.addSubview(dateLabel)

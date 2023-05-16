@@ -235,6 +235,8 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         
         let memoList = memoManager.getMemoListFromCoreData()
         
+        // 🔴🔴🔴🔴🔴🔴🔴🔴 , CoreDataManger에서 saveMemoData()는 날짜는 저장하는 순간의 날짜로 생성하기 때문에 PlusMemoryController에서 saveButtonTapped() 수정필요!
+        
         // true인 요소들만 새로운 배열에 저장되어 filteredMemoList 변수에 할당됩니다.
         let filteredMemoList = memoList.filter { memoData in
             if let savedDate = memoData.date, selectedDate == dayDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
@@ -251,14 +253,35 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
 //        detailViewController.memoData = memoData
 //        navigationController?.pushViewController(detailViewController, animated: true)
         
-        // 클릭한 셀에 데이터가 없는 경우 화면 전환을 실행하지 않습니다.
+        // 클릭한 셀에 데이터가 없는 경우
         guard !filteredMemoList.isEmpty else {
+            // 네비게이션바 설정관련
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()  // 불투명으로
+            appearance.backgroundColor = .white
+            navigationController?.navigationBar.tintColor = .systemBlue
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.compactAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            
+            let noDataPageViewController = NoDataPageViewController()
+            noDataPageViewController.memoData = filteredMemoList // 🔴 filteredMemoList가 아니라 딴거 넣어줘야함
+            navigationController?.pushViewController(noDataPageViewController, animated: true)
             return
         }
         
-        let detailViewController = MemosViewController()
-        detailViewController.memoData = filteredMemoList
-        navigationController?.pushViewController(detailViewController, animated: true)
+        // 네비게이션바 설정관련
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()  // 불투명으로
+        appearance.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        let detailPageViewController = DetailPageViewController()
+        detailPageViewController.memoData = filteredMemoList
+        navigationController?.pushViewController(detailPageViewController, animated: true)
     }
     
 }
