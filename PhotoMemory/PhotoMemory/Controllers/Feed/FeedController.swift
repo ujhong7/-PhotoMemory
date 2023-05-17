@@ -51,7 +51,8 @@ class FeedController: UICollectionViewController {
     
     // MARK: - Actions
     @objc func plusButtonTapped() {
-        let controller = PlusMemoryController(type: .createType)
+        // ⭐️⭐️⭐️ 생성자 관련
+        let controller = PlusMemoryController(type: .createType, currentSelectedDate: nil)
         navigationController?.pushViewController(controller, animated: true)
         print("DEBUG: plusButtonTapped")
     }

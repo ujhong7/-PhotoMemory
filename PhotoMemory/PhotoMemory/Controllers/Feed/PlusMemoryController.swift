@@ -25,6 +25,8 @@ class PlusMemoryController: UITableViewController {
         }
     }
     
+    var currentSelectedDate: Date?
+    
     // MARK: - Properties
     private lazy var memoImage: UIImageView = {
         let imageView = UIImageView()
@@ -60,9 +62,12 @@ class PlusMemoryController: UITableViewController {
     var memoImageTopConstraint: NSLayoutConstraint!
     
     // MARK: - LifeCycle
-    convenience init(type: MemoType){
+    
+    // ⭐️⭐️⭐️ 생성자 활용을 제대로 할 줄 알아야 데이터 넘기는 것이 편해진다.
+    convenience init(type: MemoType, currentSelectedDate: Date?){
         self.init()
         self.memoType = type
+        self.currentSelectedDate = currentSelectedDate
     }
     
     override func viewDidLoad() {
@@ -118,10 +123,13 @@ class PlusMemoryController: UITableViewController {
             guard  memoImage.image != UIImage(named: "plus_photo") else { return print("이미지 없음") }
             guard let memoImageData = memoImage.image?.pngData() else { return print("이미지 없음")}
             
-            memoManager.saveMemoData(memoText: memoText, memoPhoto: memoImageData) { [weak self] isValid in
+            memoManager.saveMemoData(memoText: memoText, memoPhoto: memoImageData, currentSelectedDate: currentSelectedDate) { [weak self] isValid in
                 if isValid == true {
                     print("저장완료👍")
                     // 다시 전화면으로 돌아가기
+                    
+                    // ⭐️⭐️⭐️ 여기에 델리게이트 패턴을 활용해서 캘린더 데이터를 reload 할 수 있게 만들어봐
+                    
                     self?.navigationController?.popToRootViewController(animated: true)
                 } else {
                     print("저장실패")

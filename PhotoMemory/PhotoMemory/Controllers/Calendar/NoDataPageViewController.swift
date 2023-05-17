@@ -14,6 +14,8 @@ class NoDataPageViewController: UIViewController {
     var memoDataArray: [MemoData]?
     var memoData: MemoData?
     
+    var currentSelectedDate: Date?
+    
 //    private lazy var dateLabel: UILabel = {
 //        let label = UILabel()
 //        let formatter = DateFormatter()
@@ -42,7 +44,7 @@ class NoDataPageViewController: UIViewController {
     }
     
     @objc func plusButtonTapped() {
-        let controller = PlusMemoryController(type: .createType)
+        let controller = PlusMemoryController(type: .createType, currentSelectedDate: currentSelectedDate)
         navigationController?.pushViewController(controller, animated: true)
         print("DEBUG: plusButtonTapped")
     }
@@ -63,4 +65,3 @@ class NoDataPageViewController: UIViewController {
         ])
     }
 }
-

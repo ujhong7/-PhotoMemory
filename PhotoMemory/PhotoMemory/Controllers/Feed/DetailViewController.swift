@@ -129,7 +129,8 @@ final class DetailViewController: UIViewController {
     
     // MARK: - Actions
     @objc func editButtonTapped() {
-        let controller = PlusMemoryController(type: .editType)
+        // ⭐️⭐️⭐️ 생성자 관련
+        let controller = PlusMemoryController(type: .editType, currentSelectedDate: nil)
         controller.memoData = self.memoData // ⭐️ 잘모르겠음..
         navigationController?.pushViewController(controller, animated: true)
         print("DEBUG: plusButtonTapped")

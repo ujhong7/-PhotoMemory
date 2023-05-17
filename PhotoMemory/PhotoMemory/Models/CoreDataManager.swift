@@ -53,7 +53,7 @@ final class CoreDataManager {
     
     // MARK: - [Create] 코어데이터에 데이터 생성하기
     
-    func saveMemoData(memoText: String?, memoPhoto: Data, completion: @escaping (Bool) -> Void) {
+    func saveMemoData(memoText: String?, memoPhoto: Data, currentSelectedDate: Date?, completion: @escaping (Bool) -> Void) {
         // 임시저장소 있는지 확인
         if let context = context {
             // 임시저장소에 있는 데이터를 그려줄 형태 파악하기
@@ -66,7 +66,11 @@ final class CoreDataManager {
                     memoData.text = memoText
                     memoData.photo = memoPhoto
                     
-                    memoData.date = Date()   // 날짜는 저장하는 순간의 날짜로 생성
+                    if currentSelectedDate != nil {
+                        memoData.date = currentSelectedDate
+                    } else {
+                        memoData.date = Date()   // 날짜는 저장하는 순간의 날짜로 생성
+                    }
 //                    memoData.color = colorInt
                     
                     //appDelegate?.saveContext() // 앱델리게이트의 메서드로 해도됨
@@ -195,8 +199,4 @@ final class CoreDataManager {
         }
         return memoList
     }
-    
-    
-    
-    
 }

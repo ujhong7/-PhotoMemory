@@ -7,12 +7,14 @@
 
 import UIKit
 
+// ⭐️⭐️⭐️ 여기에 델리게이트를 만들어볼 것
+
 final class CalendarController: UIViewController {
     
     // MARK: - CoreData
     let memoManager = CoreDataManager.shared
     
-   // MARK: - Properties
+    // MARK: - Properties
     private lazy var scrollView = UIScrollView() // 작은화면에서도 잘리지 않고 잘 보였으면 해서 생성....?
     private lazy var contentView = UIView()
     private lazy var titleLabel = UILabel()
@@ -49,20 +51,20 @@ final class CalendarController: UIViewController {
     }
     
     private func configure() {
-       conmfigureScrollView()
-       configureContentView()
-       configureTitleLabel()
-       configurePreviousButton()
-       configureNextButton()
-       configureWeekStackView()
-       configureWeekLabel()
-       configureCollectionView()
-       configureCalendar()
+        conmfigureScrollView()
+        configureContentView()
+        configureTitleLabel()
+        configurePreviousButton()
+        configureNextButton()
+        configureWeekStackView()
+        configureWeekLabel()
+        configureCollectionView()
+        configureCalendar()
     }
     
     private func conmfigureScrollView() {
-       view.addSubview(scrollView)
-       scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
@@ -72,39 +74,39 @@ final class CalendarController: UIViewController {
     }
     
     private func configureContentView() {
-       scrollView.addSubview(contentView)
-       contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-           contentView.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
-           contentView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
-           contentView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
-           contentView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor),
-           contentView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
+            contentView.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
         ])
     }
     
     private func configureTitleLabel() {
-       contentView.addSubview(titleLabel)
-       // titleLabel.text = "2000년 1월"
-       titleLabel.font = .monospacedSystemFont(ofSize: 18, weight: .bold)
-       titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
+        // titleLabel.text = "2000년 1월"
+        titleLabel.font = .monospacedSystemFont(ofSize: 18, weight: .bold)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-           titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
-           titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
+            titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
+            titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
         ])
     }
     
     private func configurePreviousButton() {
-       contentView.addSubview(previousButton)
-       previousButton.tintColor = .label
-       previousButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-       previousButton.addTarget(self, action: #selector(didPreviousButtonTapped), for: .touchUpInside)
-       previousButton.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(previousButton)
+        previousButton.tintColor = .label
+        previousButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        previousButton.addTarget(self, action: #selector(didPreviousButtonTapped), for: .touchUpInside)
+        previousButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-           previousButton.widthAnchor.constraint(equalToConstant: 44),
-           previousButton.heightAnchor.constraint(equalToConstant: 44),
-           previousButton.trailingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor, constant: -5),
-           previousButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor)
+            previousButton.widthAnchor.constraint(equalToConstant: 44),
+            previousButton.heightAnchor.constraint(equalToConstant: 44),
+            previousButton.trailingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor, constant: -5),
+            previousButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor)
         ])
     }
     
@@ -115,23 +117,23 @@ final class CalendarController: UIViewController {
         nextButton.addTarget(self, action: #selector(didNextButtonTapped), for: .touchUpInside)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-           nextButton.widthAnchor.constraint(equalToConstant: 44),
-           nextButton.heightAnchor.constraint(equalToConstant: 44),
-           nextButton.leadingAnchor.constraint(equalTo: self.titleLabel.trailingAnchor, constant: 5),
-           nextButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor)
+            nextButton.widthAnchor.constraint(equalToConstant: 44),
+            nextButton.heightAnchor.constraint(equalToConstant: 44),
+            nextButton.leadingAnchor.constraint(equalTo: self.titleLabel.trailingAnchor, constant: 5),
+            nextButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor)
         ])
     }
     
-   
+    
     
     private func configureWeekStackView() {
-       contentView.addSubview(weekStackView)
-       weekStackView.distribution = .fillEqually
-       weekStackView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(weekStackView)
+        weekStackView.distribution = .fillEqually
+        weekStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-           weekStackView.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 40),
-           weekStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
-           weekStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5)
+            weekStackView.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 40),
+            weekStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
+            weekStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5)
         ])
     }
     
@@ -176,7 +178,7 @@ final class CalendarController: UIViewController {
         plusMonth()
     }
 }
-    // MARK: - Extension
+// MARK: - Extension
 extension CalendarController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return days.count
@@ -185,7 +187,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
     // ⭐️⭐️⭐️ 내가 원하는대로 셀을 커스텀하고 싶을땐? -> cellForItemAt 을 통해 접근해보기
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
-
+        
         cell.prepareForReuse()
         cell.update(day: days[indexPath.item]) // ㅇㅇ
         
@@ -246,18 +248,18 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             }
             return false
         }
-       
-//        이게 원래 코드! ✅
-//        guard let memoData = filteredMemoList.first else {
-//            return
-//        }
-//
-//        let detailViewController = DetailViewController()
-//        detailViewController.memoData = memoData
-//        navigationController?.pushViewController(detailViewController, animated: true)
+        
+        //        이게 원래 코드! ✅
+        //        guard let memoData = filteredMemoList.first else {
+        //            return
+        //        }
+        //
+        //        let detailViewController = DetailViewController()
+        //        detailViewController.memoData = memoData
+        //        navigationController?.pushViewController(detailViewController, animated: true)
         
         // 클릭한 셀에 데이터가 없는 경우
-        guard !filteredMemoList.isEmpty else {
+        if filteredMemoList.isEmpty {
             // 네비게이션바 설정관련
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()  // 불투명으로
@@ -267,81 +269,97 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             navigationController?.navigationBar.compactAppearance = appearance
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
             
-            let noDataPageViewController = NoDataPageViewController()
-            noDataPageViewController.memoDataArray = filteredMemoList // 🔴 해당날짜값 넣어줘야하는데...
+            // 현재 내가 클릭한 날짜가 Date() 타입으로 만들어짐
+            let currentSelectedDate = stringToDate(day: "\(self.titleLabel.text!) \(days[indexPath.item])일")
+            
+            let noDataPageViewController = NoDataPageViewController() // NoDataPageViewController 객체를 생성한다
+            noDataPageViewController.currentSelectedDate = currentSelectedDate // 🔴 해당날짜값 넣어줘야하는데...
             navigationController?.pushViewController(noDataPageViewController, animated: true)
-            return
+        } else {
+            // 네비게이션바 설정관련
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()  // 불투명으로
+            appearance.backgroundColor = .white
+            navigationController?.navigationBar.tintColor = .systemBlue
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.compactAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            
+            let detailPageViewController = DetailPageViewController()
+            detailPageViewController.memoDataArray = filteredMemoList
+            navigationController?.pushViewController(detailPageViewController, animated: true)
         }
-        
-        // 네비게이션바 설정관련
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()  // 불투명으로
-        appearance.backgroundColor = .white
-        navigationController?.navigationBar.tintColor = .systemBlue
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        let detailPageViewController = DetailPageViewController()
-        detailPageViewController.memoDataArray = filteredMemoList
-        navigationController?.pushViewController(detailPageViewController, animated: true)
     }
-    
 }
-    
+
 
 extension CalendarController {
     private func configureCalendar() {
         let components = self.calendar.dateComponents([.year, .month], from: Date())
-          self.calendarDate = self.calendar.date(from: components) ?? Date()
-          self.dateFormatter.dateFormat = "yyyy년 MM월"
-          self.updateCalendar()
-      }
-      
-      private func startDayOfTheWeek() -> Int {
-          return self.calendar.component(.weekday, from: self.calendarDate) - 1
-      }
-      
-      private func endDate() -> Int {
-          return self.calendar.range(of: .day, in: .month, for: self.calendarDate)?.count ?? Int()
-      }
-      
-      private func updateCalendar() {
-          self.updateTitle()
-          self.updateDays()
-      }
-      
-      private func updateTitle() {
-          let date = self.dateFormatter.string(from: self.calendarDate)
-          self.titleLabel.text = date
-      }
-      
-      private func updateDays() {
-          self.days.removeAll()
-          let startDayOfTheWeek = self.startDayOfTheWeek()
-          let totalDays = startDayOfTheWeek + self.endDate()
-          
-          for day in Int()..<totalDays {
-              if day < startDayOfTheWeek {
-                  self.days.append(String())
-                  continue
-              }
-              self.days.append("\(day - startDayOfTheWeek + 1)")
-          }
-          self.collectionView.reloadData()
-      }
-      
-      private func minusMonth() {
-          self.calendarDate = self.calendar.date(byAdding: DateComponents(month: -1), to: self.calendarDate) ?? Date()
-          self.updateCalendar()
-      }
-      
-      private func plusMonth() {
-          self.calendarDate = self.calendar.date(byAdding: DateComponents(month: 1), to: self.calendarDate) ?? Date()
-          self.updateCalendar()
-      }
+        self.calendarDate = self.calendar.date(from: components) ?? Date()
+        self.dateFormatter.dateFormat = "yyyy년 MM월"
+        self.updateCalendar()
+    }
+    
+    private func startDayOfTheWeek() -> Int {
+        return self.calendar.component(.weekday, from: self.calendarDate) - 1
+    }
+    
+    private func endDate() -> Int {
+        return self.calendar.range(of: .day, in: .month, for: self.calendarDate)?.count ?? Int()
+    }
+    
+    private func updateCalendar() {
+        self.updateTitle()
+        self.updateDays()
+    }
+    
+    private func updateTitle() {
+        let date = self.dateFormatter.string(from: self.calendarDate)
+        self.titleLabel.text = date
+    }
+    
+    private func updateDays() {
+        self.days.removeAll()
+        let startDayOfTheWeek = self.startDayOfTheWeek()
+        let totalDays = startDayOfTheWeek + self.endDate()
+        
+        for day in Int()..<totalDays {
+            if day < startDayOfTheWeek {
+                self.days.append(String())
+                continue
+            }
+            self.days.append("\(day - startDayOfTheWeek + 1)")
+        }
+        self.collectionView.reloadData()
+    }
+    
+    private func minusMonth() {
+        self.calendarDate = self.calendar.date(byAdding: DateComponents(month: -1), to: self.calendarDate) ?? Date()
+        self.updateCalendar()
+    }
+    
+    private func plusMonth() {
+        self.calendarDate = self.calendar.date(byAdding: DateComponents(month: 1), to: self.calendarDate) ?? Date()
+        self.updateCalendar()
+    }
+    
+    // 고민했던 포인트
+    private func stringToDate(day: String) -> Date {
+        let dateString = day
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 M월 dd일"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        
+        guard let date = dateFormatter.date(from: dateString) else {
+            fatalError("날짜 변환에 실패했습니다.")
+        }
+        print("선택된 날짜는 \(date) 입니다.")
+        return date
+    }
 }
 
-    
-    
+
+
 
