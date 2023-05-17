@@ -4,8 +4,7 @@ class DetailPageViewController: UIViewController {
 
     private let memoManager = CoreDataManager.shared
 
-    var memoData: [MemoData]?
-    
+    var memoDataArray: [MemoData]?
     
     private var pageViewController: UIPageViewController!
     private var currentIndex: Int = 0
@@ -45,7 +44,7 @@ class DetailPageViewController: UIViewController {
 
     // ⭐️
     func viewControllerAtIndex(_ index: Int) -> DetailViewController? {
-        guard let memoData = memoData, memoData.count > 0 else {
+        guard let memoData = memoDataArray, memoData.count > 0 else {
             return nil
         }
 
@@ -61,7 +60,7 @@ class DetailPageViewController: UIViewController {
 // UIPageViewControllerDataSource 프로토콜 구현
 extension DetailPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-            guard let memoData = memoData, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != 0 else {
+            guard let memoData = memoDataArray, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != 0 else {
                 return nil
             }
             
@@ -70,7 +69,7 @@ extension DetailPageViewController: UIPageViewControllerDataSource {
         }
 
         func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-            guard let memoData = memoData, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != memoData.count - 1 else {
+            guard let memoData = memoDataArray, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != memoData.count - 1 else {
                 return nil
             }
             
@@ -80,7 +79,7 @@ extension DetailPageViewController: UIPageViewControllerDataSource {
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         // 전체 페이지 수
-        let pageCount = memoData?.count ?? 0
+        let pageCount = memoDataArray?.count ?? 0
         // 페이지 인디케이터의 전체 페이지 수 표시 색상 설정
         pageViewController.view.subviews.forEach { view in
             if let pageControl = view as? UIPageControl {

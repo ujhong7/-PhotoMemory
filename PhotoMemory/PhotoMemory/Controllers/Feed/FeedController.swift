@@ -93,7 +93,7 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     // 셀 선택
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(#function)
-        // TODO: - DetailViewController 띄우기
+        // TODO: - DetailViewController 띄우기 ⭐️
         let current = memoManager.getMemoListFromCoreData()[indexPath.row]
         let detailViewController = DetailViewController(memo: current)
         detailViewController.memoData = current

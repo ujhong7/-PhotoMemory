@@ -226,6 +226,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         print(#function)
         print("Selected cell at index: \(indexPath.item)번째 셀")
         print("Selected cell at days index: \(days[indexPath.item])일")
+        print("🗓 \(self.titleLabel.text!) \(days[indexPath.item])일")
         
         let selectedDate = days[indexPath.item]
         let dayDateFormatter = DateFormatter()
@@ -235,7 +236,8 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         
         let memoList = memoManager.getMemoListFromCoreData()
         
-        // 🔴🔴🔴🔴🔴🔴🔴🔴 , CoreDataManger에서 saveMemoData()는 날짜는 저장하는 순간의 날짜로 생성하기 때문에 PlusMemoryController에서 saveButtonTapped() 수정필요!
+        // 🔴🔴🔴🔴🔴🔴🔴🔴 , CoreDataManger에서 saveMemoData()는 날짜는 저장하는 순간의 날짜로 생성하기 때문에 .. 달력에서 셀클릭시 해당 날짜를 읽어와 메모를 저장하는 함수 필요!
+        //                                        PlusMemoryController에서 saveButtonTapped() 수정필요!
         
         // true인 요소들만 새로운 배열에 저장되어 filteredMemoList 변수에 할당됩니다.
         let filteredMemoList = memoList.filter { memoData in
@@ -244,6 +246,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             }
             return false
         }
+       
 //        이게 원래 코드! ✅
 //        guard let memoData = filteredMemoList.first else {
 //            return
@@ -265,7 +268,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
             
             let noDataPageViewController = NoDataPageViewController()
-            noDataPageViewController.memoData = filteredMemoList // 🔴 filteredMemoList가 아니라 딴거 넣어줘야함
+            noDataPageViewController.memoDataArray = filteredMemoList // 🔴 해당날짜값 넣어줘야하는데...
             navigationController?.pushViewController(noDataPageViewController, animated: true)
             return
         }
@@ -280,7 +283,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         let detailPageViewController = DetailPageViewController()
-        detailPageViewController.memoData = filteredMemoList
+        detailPageViewController.memoDataArray = filteredMemoList
         navigationController?.pushViewController(detailPageViewController, animated: true)
     }
     

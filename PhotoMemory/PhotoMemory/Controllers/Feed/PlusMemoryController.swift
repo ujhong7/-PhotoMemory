@@ -29,6 +29,7 @@ class PlusMemoryController: UITableViewController {
     private lazy var memoImage: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
+        imageView.layer.cornerRadius = 5
         imageView.image = UIImage(named: "plus_photo")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -36,6 +37,8 @@ class PlusMemoryController: UITableViewController {
     
     private let memoTextView: UITextView  = {
         let textView = UITextView()
+        textView.backgroundColor = .systemGray6
+        textView.layer.cornerRadius = 5
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -45,11 +48,13 @@ class PlusMemoryController: UITableViewController {
         let button = UIButton(type: .system)
         button.setTitle("SAVE", for: .normal)
         button.tintColor = .black
-        button.backgroundColor = .lightGray
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 5 // 버튼을 둥글게 만들기 위해 cornerRadius를 조절합니다.
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
     
     // (키보드 레이아웃) 애니메이션을 위한 속성
     var memoImageTopConstraint: NSLayoutConstraint!
@@ -62,7 +67,7 @@ class PlusMemoryController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .green
+        view.backgroundColor = .white
         setContraints()
         configureUI()
         setGesture()
@@ -134,12 +139,25 @@ class PlusMemoryController: UITableViewController {
     
     // 지우기 버튼
     @objc func deleteButtonTapped() {
-        print(#function)
-        memoManager.deleteToDo(data: memoData!) {
-            print("데이터 삭제 완료")
+        let alertController = UIAlertController(title: "경고", message: "정말로 삭제하시겠습니까?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { (action) in
+            self.memoManager.deleteToDo(data: self.memoData!) {
+                print("데이터 삭제 완료")
+            }
+            let alert = UIAlertController(title: nil, message: "메모가 삭제되었습니다.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default) { (action) in
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
         }
-        self.navigationController?.popToRootViewController(animated: true)
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        self.present(alertController, animated: true, completion: nil)
     }
+
+
     
     // TODO: - 노티피케이션 셋팅 (키보드)
     func setupNotification(){

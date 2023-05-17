@@ -11,27 +11,25 @@ class NoDataPageViewController: UIViewController {
     
     private let memoManager = CoreDataManager.shared
 
-    var memoData: [MemoData]?
-    // var memoData: MemoData?
+    var memoDataArray: [MemoData]?
+    var memoData: MemoData?
     
-//    let dayDateFormatter = DateFormatter()
-//    let yearMonthFormatter = DateFormatter()
-//    yearMonthFormatter.dateFormat =  "yyyy년 MM월"
-//    dayDateFormatter.dateFormat = "d"
-    
-    private lazy var noDatalabel: UILabel = {
-        let label = UILabel()
-        label.text = "저장된 메모가 없습니다"
-        label.textColor = .black
-        
+//    private lazy var dateLabel: UILabel = {
+//        let label = UILabel()
 //        let formatter = DateFormatter()
 //        formatter.dateFormat = "yyyy년 MM월 dd일"
 //        if let date = memoData?.date {
 //            label.text = formatter.string(from: date)
 //        }
-//
-//        memoData.
-        
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
+    
+    private lazy var noDataLabel: UILabel = {
+        let label = UILabel()
+     
+        label.text = "저장된 메모가 없습니다"
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -55,18 +53,13 @@ class NoDataPageViewController: UIViewController {
         view.backgroundColor = .systemGray6
         
         setupNaviBar()
-        
-//        // "저장된 메모가 없습니다" 라는 UILabel 생성
-//        let noDataLabel = UILabel()
-//        noDataLabel.text = "저장된 메모가 없습니다"
-//        noDataLabel.textColor = .black
-//        noDataLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(noDatalabel)
+    
+        view.addSubview(noDataLabel)
         
         // UILabel을 수평 및 수직 중앙에 위치시키는 제약 조건 추가
         NSLayoutConstraint.activate([
-            noDatalabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noDatalabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            noDataLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noDataLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 }
