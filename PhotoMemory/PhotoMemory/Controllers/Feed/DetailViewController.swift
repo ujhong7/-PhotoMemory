@@ -8,14 +8,8 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-//    private var memo: MemoData?
     private let memoManager = CoreDataManager.shared
-    
-    var memoData: MemoData?  {
-        didSet {
-            // configureUI()
-        }
-    }
+    var memoData: MemoData?
     
     // MARK: - Properties
     private lazy var memoImage: UIImageView = {
@@ -95,7 +89,6 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
-
         setContraints()
         setupPlusNaviBar()
         // setGestureNavi()
@@ -113,14 +106,6 @@ final class DetailViewController: UIViewController {
         editButton.tintColor = .black
         navigationItem.rightBarButtonItem = editButton
     }
-    
-    // MARK: - setGesture
-//    func setGestureNavi() {
-//        // 네비게이션 바 안보이도록 하는 제스쳐
-//        let naviTabHide = UITapGestureRecognizer(target: self, action: #selector(naviTabHide))
-//        view.addGestureRecognizer(naviTabHide)
-//    }
-    
     func setGestureTextView() {
         // TextView 가리기 on/off
         let textHideButton = UITapGestureRecognizer(target: self, action: #selector(textHideSelector))
@@ -140,7 +125,6 @@ final class DetailViewController: UIViewController {
     @objc func textHideSelector() {
         let duration = 0.7
         let textDuration = 1.0
-        
         // ⭐️ 추가 공부 필요 !!
         if blurEffectView.alpha == 0.0 {
             blurEffectView.isHidden = false
@@ -168,19 +152,7 @@ final class DetailViewController: UIViewController {
             }
         }
     }
-    
-//    // 네비게이션 바 숨기기 제스쳐
-//    @objc func naviTabHide() {
-//        // 네비게이션 바가 숨겨져 있는 경우 보이도록 함
-//        if navigationController?.isNavigationBarHidden == true {
-//            navigationController?.setNavigationBarHidden(false, animated: true)
-//        }
-//        // 네비게이션 바가 보이는 경우 숨기도록 함
-//        else {
-//            navigationController?.setNavigationBarHidden(true, animated: true)
-//        }
-//    }
-    
+ 
     // MARK: - AutoLayout
     func setContraints() {
         view.addSubview(memoImage)
@@ -190,13 +162,11 @@ final class DetailViewController: UIViewController {
             memoImage.widthAnchor.constraint(equalToConstant: 390),
             memoImage.heightAnchor.constraint(equalToConstant: 390)
         ])
-        
         view.addSubview(dateLabel)
            NSLayoutConstraint.activate([
                dateLabel.bottomAnchor.constraint(equalTo: memoImage.topAnchor, constant: -5),
                dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
            ])
-        
         view.addSubview(containerView)
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -204,7 +174,6 @@ final class DetailViewController: UIViewController {
             containerView.widthAnchor.constraint(equalToConstant: 400),
             containerView.heightAnchor.constraint(equalToConstant: 400)
         ])
-        
         containerView.addSubview(blurEffectView)
         NSLayoutConstraint.activate([
             blurEffectView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -212,7 +181,6 @@ final class DetailViewController: UIViewController {
             blurEffectView.topAnchor.constraint(equalTo: containerView.topAnchor),
             blurEffectView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
-        
         containerView.addSubview(memoTextView)
         NSLayoutConstraint.activate([
             memoTextView.centerXAnchor.constraint(equalTo: memoImage.centerXAnchor),

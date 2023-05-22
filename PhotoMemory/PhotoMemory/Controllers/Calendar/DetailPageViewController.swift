@@ -1,9 +1,7 @@
 import UIKit
 
 class DetailPageViewController: UIViewController {
-
     private let memoManager = CoreDataManager.shared
-
     var memoDataArray: [MemoData]?
     
     private var pageViewController: UIPageViewController!
@@ -12,8 +10,6 @@ class DetailPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
-//        view.backgroundColor = .gray
-        
         configurePageViewController()
     }
 
@@ -21,7 +17,6 @@ class DetailPageViewController: UIViewController {
         // UIPageViewController 객체 생성
         pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageViewController.dataSource = self
-
         // UIPageViewController 객체를 뷰에 추가
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
@@ -42,17 +37,14 @@ class DetailPageViewController: UIViewController {
         }
     }
 
-    // ⭐️
     func viewControllerAtIndex(_ index: Int) -> DetailViewController? {
         guard let memoData = memoDataArray, memoData.count > 0 else {
             return nil
         }
-
         // MemoDetailViewController 객체 생성
         let memoDetailViewController = DetailViewController()
         memoDetailViewController.memoData = memoData[index]
         currentIndex = index
-
         return memoDetailViewController
     }
 }
@@ -60,23 +52,21 @@ class DetailPageViewController: UIViewController {
 // UIPageViewControllerDataSource 프로토콜 구현
 extension DetailPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-            guard let memoData = memoDataArray, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != 0 else {
-                return nil
-            }
-            
-            let index = (currentIndex - 1 + memoData.count) % memoData.count
-            return viewControllerAtIndex(index)
+        guard let memoData = memoDataArray, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != 0 else {
+            return nil
         }
-
-        func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-            guard let memoData = memoDataArray, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != memoData.count - 1 else {
-                return nil
-            }
-            
-            let index = (currentIndex + 1) % memoData.count
-            return viewControllerAtIndex(index)
+        let index = (currentIndex - 1 + memoData.count) % memoData.count
+        return viewControllerAtIndex(index)
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let memoData = memoDataArray, memoData.count > 1, let currentIndex = memoData.firstIndex(where: { $0 == (viewController as! DetailViewController).memoData }), currentIndex != memoData.count - 1 else {
+            return nil
         }
-
+        let index = (currentIndex + 1) % memoData.count
+        return viewControllerAtIndex(index)
+    }
+    
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         // 전체 페이지 수
         let pageCount = memoDataArray?.count ?? 0
@@ -100,12 +90,4 @@ extension DetailPageViewController: UIPageViewControllerDataSource {
         }
         return index
     }
-    
-//    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-//        return memoData?.count ?? 0
-//    }
-//
-//    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-//        return currentIndex
-//    }
 }

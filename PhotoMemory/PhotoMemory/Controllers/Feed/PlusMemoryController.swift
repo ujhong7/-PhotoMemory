@@ -19,13 +19,9 @@ enum MemoType {
 class PlusMemoryController: UITableViewController {
     let memoManager = CoreDataManager.shared
     var memoType: MemoType = .none
-    var memoData: MemoData?  {
-        didSet {
-            configureUI()
-        }
-    }
-    
+    var memoData: MemoData?
     var currentSelectedDate: Date?
+    var delegate: CalendarControllerDelegate?
     
     // MARK: - Properties
     private lazy var memoImage: UIImageView = {
@@ -57,12 +53,10 @@ class PlusMemoryController: UITableViewController {
         return button
     }()
 
-    
     // (키보드 레이아웃) 애니메이션을 위한 속성
     var memoImageTopConstraint: NSLayoutConstraint!
     
     // MARK: - LifeCycle
-    
     // ⭐️⭐️⭐️ 생성자 활용을 제대로 할 줄 알아야 데이터 넘기는 것이 편해진다.
     convenience init(type: MemoType, currentSelectedDate: Date?){
         self.init()
@@ -129,6 +123,8 @@ class PlusMemoryController: UITableViewController {
                     // 다시 전화면으로 돌아가기
                     
                     // ⭐️⭐️⭐️ 여기에 델리게이트 패턴을 활용해서 캘린더 데이터를 reload 할 수 있게 만들어봐
+                    self?.delegate?.reloadCalendar()
+                   
                     
                     self?.navigationController?.popToRootViewController(animated: true)
                 } else {
@@ -164,8 +160,6 @@ class PlusMemoryController: UITableViewController {
         alertController.addAction(deleteAction)
         self.present(alertController, animated: true, completion: nil)
     }
-
-
     
     // TODO: - 노티피케이션 셋팅 (키보드)
     func setupNotification(){
@@ -212,7 +206,6 @@ class PlusMemoryController: UITableViewController {
             memoImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             memoImage.heightAnchor.constraint(equalToConstant: 350)
         ])
-        
         view.addSubview(memoTextView)
         NSLayoutConstraint.activate([
             memoTextView.topAnchor.constraint(equalTo: memoImage.bottomAnchor, constant: 20),
@@ -220,7 +213,6 @@ class PlusMemoryController: UITableViewController {
             memoTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             memoTextView.heightAnchor.constraint(equalToConstant: 220)
         ])
-        
         view.addSubview(saveButton)
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 20),
@@ -229,9 +221,7 @@ class PlusMemoryController: UITableViewController {
             saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
             saveButton.heightAnchor.constraint(equalToConstant: 40)
         ])
-        
         memoImageTopConstraint = memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
-
         NSLayoutConstraint.activate([
             memoImageTopConstraint,
             view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -247,9 +237,7 @@ class PlusMemoryController: UITableViewController {
             deleteButton.tintColor = .black
             navigationItem.rightBarButtonItem = deleteButton
             self.title = "메모 수정하기"
-            
             memoImage.image = UIImage(data: memoData.photo!)
-            
             guard let text = memoData.text else { return }
             memoTextView.text = text
             memoTextView.textColor = .black
@@ -279,7 +267,6 @@ extension PlusMemoryController: UITextViewDelegate {
             textView.textColor = .black
         }
     }
-    
     // 입력이 끝났을때
     func textViewDidEndEditing(_ textView: UITextView) {
         // 비어있으면 다시 플레이스 홀더처럼 입력하기 위해서 조건 확인

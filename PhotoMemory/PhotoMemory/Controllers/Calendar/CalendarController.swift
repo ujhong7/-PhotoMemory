@@ -8,11 +8,18 @@
 import UIKit
 
 // ⭐️⭐️⭐️ 여기에 델리게이트를 만들어볼 것
+protocol CalendarControllerDelegate {
+    func reloadCalendar()
+}
 
-final class CalendarController: UIViewController {
+final class CalendarController: UIViewController, CalendarControllerDelegate {
     
     // MARK: - CoreData
     let memoManager = CoreDataManager.shared
+    
+    func reloadCalendar() {
+        self.collectionView.reloadData()
+    }
     
     // MARK: - Properties
     private lazy var scrollView = UIScrollView() // 작은화면에서도 잘리지 않고 잘 보였으면 해서 생성....?
@@ -154,6 +161,17 @@ final class CalendarController: UIViewController {
         }
     }
     
+    func setNavi() {
+        // 네비게이션바 설정관련
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()  // 불투명으로
+        appearance.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
     private func configureCollectionView() {
         contentView.addSubview(collectionView)
         collectionView.dataSource = self
@@ -238,9 +256,6 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         
         let memoList = memoManager.getMemoListFromCoreData()
         
-        // 🔴🔴🔴🔴🔴🔴🔴🔴 , CoreDataManger에서 saveMemoData()는 날짜는 저장하는 순간의 날짜로 생성하기 때문에 .. 달력에서 셀클릭시 해당 날짜를 읽어와 메모를 저장하는 함수 필요!
-        //                                        PlusMemoryController에서 saveButtonTapped() 수정필요!
-        
         // true인 요소들만 새로운 배열에 저장되어 filteredMemoList 변수에 할당됩니다.
         let filteredMemoList = memoList.filter { memoData in
             if let savedDate = memoData.date, selectedDate == dayDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
@@ -248,27 +263,15 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             }
             return false
         }
-        
-        //        이게 원래 코드! ✅
-        //        guard let memoData = filteredMemoList.first else {
-        //            return
-        //        }
-        //
-        //        let detailViewController = DetailViewController()
-        //        detailViewController.memoData = memoData
-        //        navigationController?.pushViewController(detailViewController, animated: true)
+      
+        // 1일 전에 빈셀(빈날짜)있으면 클릭해도 동작 x
+        guard Int(days[indexPath.item]) ?? 0 > 0 else {
+              return
+          }
         
         // 클릭한 셀에 데이터가 없는 경우
         if filteredMemoList.isEmpty {
-            // 네비게이션바 설정관련
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()  // 불투명으로
-            appearance.backgroundColor = .white
-            navigationController?.navigationBar.tintColor = .systemBlue
-            navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.compactAppearance = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
-            
+            setNavi()
             // 현재 내가 클릭한 날짜가 Date() 타입으로 만들어짐
             let currentSelectedDate = stringToDate(day: "\(self.titleLabel.text!) \(days[indexPath.item])일")
             
@@ -276,15 +279,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             noDataPageViewController.currentSelectedDate = currentSelectedDate // 🔴 해당날짜값 넣어줘야하는데...
             navigationController?.pushViewController(noDataPageViewController, animated: true)
         } else {
-            // 네비게이션바 설정관련
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()  // 불투명으로
-            appearance.backgroundColor = .white
-            navigationController?.navigationBar.tintColor = .systemBlue
-            navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.compactAppearance = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
-            
+            setNavi()
             let detailPageViewController = DetailPageViewController()
             detailPageViewController.memoDataArray = filteredMemoList
             navigationController?.pushViewController(detailPageViewController, animated: true)
@@ -344,7 +339,7 @@ extension CalendarController {
         self.updateCalendar()
     }
     
-    // 고민했던 포인트
+    // 문자열 -> 날짜
     private func stringToDate(day: String) -> Date {
         let dateString = day
         let dateFormatter = DateFormatter()

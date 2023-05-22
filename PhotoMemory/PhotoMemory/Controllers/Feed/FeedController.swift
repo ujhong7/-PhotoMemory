@@ -18,9 +18,8 @@ class FeedController: UICollectionViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         configureUI()
-        setupNaviBar()
+        setPlusButton()
     }
     
     // 델리게이트가 아닌 방식으로 구현할때는 화면 리프레시⭐️
@@ -42,11 +41,25 @@ class FeedController: UICollectionViewController {
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier) // ⭐️
     }
     
-    func setupNaviBar() {
-        // 네비게이션바 우측에 Plus 버튼 만들기
+    // 네비게이션바 우측에 Plus버튼
+    func setPlusButton() {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonTapped))
         plusButton.tintColor = .black
         navigationItem.rightBarButtonItem = plusButton
+    }
+    
+    // 네비게이션바 설정
+    func setNavi() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()  // 불투명으로
+        appearance.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = .systemBlue
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        navigationController?.modalTransitionStyle = .partialCurl
+        navigationController?.modalPresentationStyle = .fullScreen
     }
     
     // MARK: - Actions
@@ -63,11 +76,8 @@ extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return  memoManager.getMemoListFromCoreData().count
     }
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
-        //cell.backgroundColor = .blue
-        
         // 셀에 모델(MemoData) 전달
         let memoData = memoManager.getMemoListFromCoreData()
         cell.memoData = memoData[indexPath.row]
@@ -79,17 +89,15 @@ extension FeedController {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension FeedController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let width = collectionView.frame.width / 3 - 1
-            return CGSize(width: width, height: width)
-        }
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 1
-        }
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return 1
-        }
+        let width = collectionView.frame.width / 3 - 1
+        return CGSize(width: width, height: width)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
     
     // 셀 선택
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -98,18 +106,7 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         let current = memoManager.getMemoListFromCoreData()[indexPath.row]
         let detailViewController = DetailViewController(memo: current)
         detailViewController.memoData = current
-        
-        // 네비게이션바 설정관련
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()  // 불투명으로
-        appearance.backgroundColor = .white
-        navigationController?.navigationBar.tintColor = .systemBlue
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        navigationController?.modalTransitionStyle = .partialCurl
-        navigationController?.modalPresentationStyle = .fullScreen
+        setNavi()
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

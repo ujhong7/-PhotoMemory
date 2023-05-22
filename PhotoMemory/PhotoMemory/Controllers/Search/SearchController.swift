@@ -12,9 +12,7 @@ private let reuseIdentifier = "FeedCell"
 class SearchController: UIViewController, UISearchBarDelegate {
     // MARK: - CoreData
     let memoManager = CoreDataManager.shared
-    
     let searchBar = UISearchBar()
-    
     var searchResult: [MemoData] = []
 
     private let collectionView: UICollectionView = {
@@ -79,36 +77,8 @@ class SearchController: UIViewController, UISearchBarDelegate {
          searchMemo(with: searchText)
      }
     
-    // 검색중 화면 터치하면 키보드 내려가도록하기 !!! 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
-    
-}
-
-extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchResult.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
-        //cell.backgroundColor = .blue
-        
-        // 셀에 모델(MemoData) 전달
-//        let memoData = memoManager.getMemoListFromCoreData()
-        let memoData = searchResult
-        cell.memoData = memoData[indexPath.row]
-        cell.backgroundView = UIImageView(image: UIImage(data: memoData[indexPath.row].photo!)!)
-        return cell
-    }
-    
-    // 추가 메서드
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: - DetailViewController 띄우기
-//        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
-        let current = searchResult[indexPath.row]
-        let detailViewController = DetailViewController(memo: current)
-        detailViewController.memoData = current
-        
-        // 네비게이션바 설정관련
+    // 네비게이션바 설정관련
+    func setNavi() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()  // 불투명으로
         appearance.backgroundColor = .white
@@ -116,31 +86,45 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
         navigationController?.modalTransitionStyle = .partialCurl
         navigationController?.modalPresentationStyle = .overFullScreen
-        navigationController?.pushViewController(detailViewController, animated: true)
-        
-        // searchMemoListFromCoreData 이부분 다시 확인 필요, 검색후 다시 이전 화면 안뜨는것 확인필요 ! ⭐️
     }
-    
+    // 검색중 화면 터치하면 키보드 내려가도록하기 !!! 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+}
+
+extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return searchResult.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
+        let memoData = searchResult
+        cell.memoData = memoData[indexPath.row]
+        cell.backgroundView = UIImageView(image: UIImage(data: memoData[indexPath.row].photo!)!)
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let current = searchResult[indexPath.row]
+        let detailViewController = DetailViewController(memo: current)
+        detailViewController.memoData = current
+        setNavi()
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension SearchController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let width = collectionView.frame.width / 3 - 1
-            return CGSize(width: width, height: width)
-        }
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 1
-        }
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return 1
-        }
+        let width = collectionView.frame.width / 3 - 1
+        return CGSize(width: width, height: width)
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+}
 
 // MARK: - Search
 extension SearchController: UISearchResultsUpdating {
