@@ -9,6 +9,11 @@ import UIKit
 import PhotosUI
 import CoreData
  
+protocol CalendarReloadDelegate: AnyObject {
+    func reloadCalendar()
+}
+
+
 // 생성할때도 쓰고, 수정할때도 쓰고
 enum MemoType {
     case createType
@@ -16,12 +21,14 @@ enum MemoType {
     case none
 }
 
+weak var delegate: CalendarReloadDelegate?
+
 class PlusMemoryController: UITableViewController {
     let memoManager = CoreDataManager.shared
     var memoType: MemoType = .none
     var memoData: MemoData?
     var currentSelectedDate: Date?
-    var delegate: CalendarControllerDelegate?
+   // var delegate: CalendarControllerDelegate?
     
     // MARK: - Properties
     private lazy var memoImage: UIImageView = {
@@ -123,8 +130,8 @@ class PlusMemoryController: UITableViewController {
                     // 다시 전화면으로 돌아가기
                     
                     // ⭐️⭐️⭐️ 여기에 델리게이트 패턴을 활용해서 캘린더 데이터를 reload 할 수 있게 만들어봐
-                    self?.delegate?.reloadCalendar()
-                   
+                  //  self?.delegate?.reloadCalendar()
+                    delegate?.reloadCalendar()
                     
                     self?.navigationController?.popToRootViewController(animated: true)
                 } else {

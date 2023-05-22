@@ -8,11 +8,11 @@
 import UIKit
 
 // ⭐️⭐️⭐️ 여기에 델리게이트를 만들어볼 것
-protocol CalendarControllerDelegate {
-    func reloadCalendar()
-}
+//protocol CalendarControllerDelegate {
+//    func reloadCalendar()
+//}
 
-final class CalendarController: UIViewController, CalendarControllerDelegate {
+final class CalendarController: UIViewController,  CalendarReloadDelegate {
     
     // MARK: - CoreData
     let memoManager = CoreDataManager.shared
