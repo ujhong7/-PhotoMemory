@@ -7,19 +7,10 @@
 
 import UIKit
 
-// ⭐️⭐️⭐️ 여기에 델리게이트를 만들어볼 것
-//protocol CalendarControllerDelegate {
-//    func reloadCalendar()
-//}
-
-final class CalendarController: UIViewController,  CalendarReloadDelegate {
+final class CalendarController: UIViewController {
     
     // MARK: - CoreData
     let memoManager = CoreDataManager.shared
-    
-    func reloadCalendar() {
-        self.collectionView.reloadData()
-    }
     
     // MARK: - Properties
     private lazy var scrollView = UIScrollView() // 작은화면에서도 잘리지 않고 잘 보였으면 해서 생성....?
@@ -43,6 +34,7 @@ final class CalendarController: UIViewController,  CalendarReloadDelegate {
         view.backgroundColor = .systemBackground
         fetchMemo() // fetch 라는건 보통은 API 호출을 통해서 가지고 오는 데이터를 작성할때 사용하는 메서드
         configure()
+        addNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +43,22 @@ final class CalendarController: UIViewController,  CalendarReloadDelegate {
         collectionView.reloadData()
         // DetailViewController에서 tabBar지운거 다시 복원
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func addNotification() {
+        // ⭐️⭐️⭐️ addObserver
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadCalendar),
+                                               name: NSNotification.Name(rawValue: "ReloadCalendar"),
+                                               object: nil)
+    }
+    
+    @objc private func reloadCalendar() {
+        self.collectionView.reloadData()
     }
     
     private func fetchMemo() {

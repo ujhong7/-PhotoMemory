@@ -128,12 +128,13 @@ class PlusMemoryController: UITableViewController {
                 if isValid == true {
                     print("저장완료👍")
                     // 다시 전화면으로 돌아가기
+                    // ⭐️⭐️⭐️ post
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadCalendar"), object: nil)
                     
-                    // ⭐️⭐️⭐️ 여기에 델리게이트 패턴을 활용해서 캘린더 데이터를 reload 할 수 있게 만들어봐
-                  //  self?.delegate?.reloadCalendar()
-                    delegate?.reloadCalendar()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.navigationController?.popToRootViewController(animated: true)
+                    }
                     
-                    self?.navigationController?.popToRootViewController(animated: true)
                 } else {
                     print("저장실패")
                 }
