@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 private let reuseIdentifier = "FeedCell" // ⭐️
 
@@ -26,7 +27,7 @@ class FeedController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 뷰가 다시 나타날때, 테이블뷰를 리로드
-        collectionView.reloadData()
+        //collectionView.reloadData()
         // DetailViewController에서 tabBar지운거 다시 복원
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -74,14 +75,18 @@ class FeedController: UICollectionViewController {
 // MARK: - UICollectionViewDataSource
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return  memoManager.getMemoListFromCoreData().count
+        return memoManager.getMemoListFromCoreData().count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
-        // 셀에 모델(MemoData) 전달
-        let memoData = memoManager.getMemoListFromCoreData()
-        cell.memoData = memoData[indexPath.row]
-        cell.backgroundView = UIImageView(image: UIImage(data: memoData[indexPath.row].photo!)!)
+        
+        DispatchQueue.main.async {
+            // 셀에 모델(MemoData) 전달
+            let memoData = self.memoManager.getMemoListFromCoreData()
+            cell.memoData = memoData[indexPath.row]
+            cell.configureUI(data: memoData[indexPath.row].photo!)
+        }
+
         return cell
     }
 }

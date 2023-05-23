@@ -62,7 +62,7 @@ final class CalendarController: UIViewController {
     }
     
     private func fetchMemo() {
-        memo = memoManager.getMemoListFromCoreData()
+        self.memo = self.memoManager.getMemoListFromCoreData()
     }
     
     private func configure() {
@@ -215,7 +215,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
         
         cell.prepareForReuse()
-        cell.update(day: days[indexPath.item]) // ㅇㅇ
+        cell.update(day: self.days[indexPath.item]) // ㅇㅇ
         
         // TODO: - date
         let customDateFormatter = DateFormatter() // 지역변수 ⭐️
@@ -225,12 +225,16 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         
         var checkValue: Int = 0
         
-        if memo.count != checkValue {
-            for memoData in memo {
-                if let savedDate = memoData.date, days[indexPath.item] == customDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
-                    cell.existData()
+        if self.memo.count != checkValue {
+            for memoData in self.memo {
+                if let savedDate = memoData.date, self.days[indexPath.item] == customDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
                     
-                    fetchMemo()
+                    DispatchQueue.main.async {
+                        cell.existData()
+                    }
+                    
+                    // 이런 코드가 여기에 있으면 당연히 로딩이 느려질 수 밖에 없음
+                    //self.fetchMemo()
                     checkValue += 1
                 }
             }
