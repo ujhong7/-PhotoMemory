@@ -286,11 +286,13 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
             
             let noDataPageViewController = NoDataPageViewController() // NoDataPageViewController 객체를 생성한다
             noDataPageViewController.currentSelectedDate = currentSelectedDate // 🔴 해당날짜값 넣어줘야하는데...
+            navigationController?.navigationBar.tintColor = .black
             navigationController?.pushViewController(noDataPageViewController, animated: true)
         } else {
             setNavi()
             let detailPageViewController = DetailPageViewController()
             detailPageViewController.memoDataArray = filteredMemoList
+            navigationController?.navigationBar.tintColor = .black
             navigationController?.pushViewController(detailPageViewController, animated: true)
         }
     }

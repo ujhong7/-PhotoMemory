@@ -176,7 +176,7 @@ class PlusMemoryController: UITableViewController {
 
     @objc func moveUpAction(){
         print(#function)
-        memoImageTopConstraint.constant = -30
+        memoImageTopConstraint.constant = -130
           UIView.animate(withDuration: 0.2) {
               self.view.layoutIfNeeded()
           }
@@ -184,7 +184,7 @@ class PlusMemoryController: UITableViewController {
     
     @objc func moveDownAction(){
         print(#function)
-        memoImageTopConstraint.constant = 30
+        memoImageTopConstraint.constant = 130
            UIView.animate(withDuration: 0.2) {
                self.view.layoutIfNeeded()
            }
