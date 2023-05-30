@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Kingfisher
+// import Kingfisher
 
 private let reuseIdentifier = "FeedCell" // ⭐️
 
@@ -79,14 +79,10 @@ extension FeedController {
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
-        
-        DispatchQueue.main.async {
-            // 셀에 모델(MemoData) 전달
-            let memoData = self.memoManager.getMemoListFromCoreData()
-            cell.memoData = memoData[indexPath.row]
-            cell.configureUI(data: memoData[indexPath.row].photo!)
-        }
-
+        // 셀에 모델(MemoData) 전달
+        let memoData = memoManager.getMemoListFromCoreData()
+        cell.memoData = memoData[indexPath.row]
+        cell.backgroundView = UIImageView(image: UIImage(data: memoData[indexPath.row].photo!)!)
         return cell
     }
 }
