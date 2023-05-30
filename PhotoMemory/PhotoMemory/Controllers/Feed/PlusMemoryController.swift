@@ -13,7 +13,6 @@ protocol CalendarReloadDelegate: AnyObject {
     func reloadCalendar()
 }
 
-
 // 생성할때도 쓰고, 수정할때도 쓰고
 enum MemoType {
     case createType
@@ -35,7 +34,8 @@ class PlusMemoryController: UITableViewController {
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
         imageView.layer.cornerRadius = 5
-        imageView.image = UIImage(named: "plus_photo")
+        imageView.image = UIImage(systemName: "plus.circle")
+        imageView.tintColor = .systemGray5
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -121,7 +121,7 @@ class PlusMemoryController: UITableViewController {
         } else {
             let memoText = memoTextView.text
             guard memoText != "텍스트를 여기에 입력하세요." else { return print("텍스트를 입력하세요.")}
-            guard  memoImage.image != UIImage(named: "plus_photo") else { return print("이미지 없음") }
+            guard  memoImage.image != UIImage(systemName: "plus.circle") else { return print("이미지 없음@@") }
             guard let memoImageData = memoImage.image?.pngData() else { return print("이미지 없음")}
             
             memoManager.saveMemoData(memoText: memoText, memoPhoto: memoImageData, currentSelectedDate: currentSelectedDate) { [weak self] isValid in
@@ -140,13 +140,7 @@ class PlusMemoryController: UITableViewController {
                 }
             }
         }
-        
-        // TODO: - init 생성자를 추가해서 코드 변경하기
-        if memoType == .createType {
-            
-        } else if memoType == .editType {
-            
-        }
+       
     }
     
     // 지우기 버튼
@@ -223,7 +217,7 @@ class PlusMemoryController: UITableViewController {
         ])
         view.addSubview(saveButton)
         NSLayoutConstraint.activate([
-            saveButton.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 20),
+            saveButton.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 10),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),

@@ -171,8 +171,8 @@ final class DetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.widthAnchor.constraint(equalToConstant: 400),
-            containerView.heightAnchor.constraint(equalToConstant: 400)
+            containerView.widthAnchor.constraint(equalToConstant: 390),
+            containerView.heightAnchor.constraint(equalToConstant: 390)
         ])
         containerView.addSubview(blurEffectView)
         NSLayoutConstraint.activate([

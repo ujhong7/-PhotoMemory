@@ -40,7 +40,7 @@ final class CalendarController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 뷰가 다시 나타날때, 테이블뷰를 리로드
-        collectionView.reloadData()
+        // collectionView.reloadData()
         // DetailViewController에서 tabBar지운거 다시 복원
         self.tabBarController?.tabBar.isHidden = false
     }

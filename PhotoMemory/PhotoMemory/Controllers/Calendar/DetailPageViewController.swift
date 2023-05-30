@@ -1,8 +1,17 @@
 import UIKit
 
+enum HaveData {
+    case yesData
+    case noData
+    case none
+}
+
+
 class DetailPageViewController: UIViewController {
     private let memoManager = CoreDataManager.shared
     var memoDataArray: [MemoData]?
+    var currentSelectedDate: Date?
+
     
     private var pageViewController: UIPageViewController!
     private var currentIndex: Int = 0
@@ -11,8 +20,51 @@ class DetailPageViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         configurePageViewController()
+        setupPlusNaviBar()
     }
 
+    func setupPlusNaviBar() {
+//        // 네비게이션바 우측에 Plus 버튼 만들기
+//        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+//        editButton.tintColor = .black
+//        navigationItem.rightBarButtonItem = editButton
+        
+        // 첫 번째 버튼
+        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+        editButton.tintColor = .black
+        
+        // 두 번째 버튼
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonTapped))
+        plusButton.tintColor = .black
+        
+        // 네비게이션바 우측에 두 개의 버튼 추가
+        navigationItem.rightBarButtonItems = [plusButton, editButton]
+        
+        
+        
+        
+        
+    }
+    
+    @objc func editButtonTapped() {
+        // ⭐️⭐️⭐️ 생성자 관련
+        let controller = PlusMemoryController(type: .editType, currentSelectedDate: nil)
+        // controller.memoData = self.memoData // ⭐️ 잘모르겠음..
+        // controller.memoData = memoDataArray?[currentIndex]
+        if let selectedViewController = pageViewController.viewControllers?.first as? DetailViewController,
+             let selectedMemoData = selectedViewController.memoData {
+              controller.memoData = selectedMemoData
+          }
+        navigationController?.pushViewController(controller, animated: true)
+        print("DEBUG: plusButtonTapped")
+    }
+    
+    @objc func plusButtonTapped() {
+        let controller = PlusMemoryController(type: .createType, currentSelectedDate: currentSelectedDate)
+        navigationController?.pushViewController(controller, animated: true)
+        print("DEBUG: plusButtonTapped")
+    }
+    
     func configurePageViewController() {
         // UIPageViewController 객체 생성
         pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)

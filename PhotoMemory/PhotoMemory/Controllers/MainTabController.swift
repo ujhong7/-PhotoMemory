@@ -19,12 +19,12 @@ class MainTabController: UITabBarController {
         view.backgroundColor = .green
         let layout = UICollectionViewFlowLayout()
         
-        let feed = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), slectedImage: #imageLiteral(resourceName: "home_selected"), rootviewController: FeedController(collectionViewLayout: layout))
+        let feed = templateNavigationController(unselectedImage: UIImage(systemName: "square.stack")!, slectedImage: UIImage(systemName: "square.stack.fill")!, rootviewController: FeedController(collectionViewLayout: layout))
         // let second = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), slectedImage: #imageLiteral(resourceName: "like_selected"), rootviewController: secondController())
-        let calendar = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), slectedImage: #imageLiteral(resourceName: "plus_unselected"), rootviewController: CalendarController())
-        let fourth = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), slectedImage: #imageLiteral(resourceName: "search_selected"), rootviewController: SearchController())
+        let calendar = templateNavigationController(unselectedImage: UIImage(systemName: "calendar.circle")!, slectedImage: UIImage(systemName: "calendar.circle.fill")!, rootviewController: CalendarController())
+        let search = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), slectedImage: #imageLiteral(resourceName: "search_selected"), rootviewController: SearchController())
         
-        viewControllers = [feed, calendar, fourth]
+        viewControllers = [feed, calendar, search]
         tabBar.tintColor = .black
     }
     
