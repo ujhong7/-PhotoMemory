@@ -20,10 +20,10 @@ class DetailPageViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         configurePageViewController()
-        setupPlusNaviBar()
+        setupNaviBar()
     }
 
-    func setupPlusNaviBar() {
+    func setupNaviBar() {
 //        // 네비게이션바 우측에 Plus 버튼 만들기
 //        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
 //        editButton.tintColor = .black

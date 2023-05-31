@@ -35,18 +35,7 @@ final class DetailViewController: UIViewController {
         textView.backgroundColor = .clear
         let textColor = UIColor.black
         textView.textColor = textColor
-        
-        // NSAttributedString 생성 (폰트 테두리)
-          let attributes: [NSAttributedString.Key: Any] = [
-              .font: font,
-              .foregroundColor: textColor,
-              .strokeColor: UIColor.black, // 테두리 색상
-              .strokeWidth: -3.0 // 음수 값으로 설정하면 테두리가 채워짐
-          ]
-          let attributedString = NSAttributedString(string: textView.text ?? "", attributes: attributes)
-          
-          textView.attributedText = attributedString
-        
+
         textView.isEditable = false
         textView.alpha = 0.0
         textView.isHidden = true
@@ -57,7 +46,7 @@ final class DetailViewController: UIViewController {
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월 dd일"
+        formatter.dateFormat = "yyyy년 MM월 dd일 (E)"
         if let date = memoData?.date {
             label.text = formatter.string(from: date)
         }
