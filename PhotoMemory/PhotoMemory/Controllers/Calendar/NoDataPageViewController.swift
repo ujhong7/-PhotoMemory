@@ -28,6 +28,7 @@ class NoDataPageViewController: UIViewController {
     @objc func plusButtonTapped() {
         let controller = PlusMemoryController(type: .createType, currentSelectedDate: currentSelectedDate)
         navigationController?.pushViewController(controller, animated: true)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: nil, action: nil)
         print("DEBUG: plusButtonTapped")
     }
     

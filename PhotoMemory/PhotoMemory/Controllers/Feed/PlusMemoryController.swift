@@ -51,7 +51,7 @@ class PlusMemoryController: UITableViewController {
     // MARK: - 액션 버튼을 달때 항상 lazy 키워드로 작성해주기 ⭐️
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("SAVE", for: .normal)
+        button.setTitle("저장", for: .normal)
         button.tintColor = .black
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 5 // 버튼을 둥글게 만들기 위해 cornerRadius를 조절합니다.
@@ -235,18 +235,20 @@ class PlusMemoryController: UITableViewController {
         // 기존데이터가 있을때
         if let memoData = self.memoData {
             // 지우기
-            let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped))
+          //  let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped))
+            let deleteButton = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteButtonTapped))
+
             deleteButton.tintColor = .black
             navigationItem.rightBarButtonItem = deleteButton
-            self.title = "메모 수정하기"
+            self.title = "메모 수정"
             memoImage.image = UIImage(data: memoData.photo!)
             guard let text = memoData.text else { return }
             memoTextView.text = text
             memoTextView.textColor = .black
-            saveButton.setTitle("UPDATE", for: .normal)
+            saveButton.setTitle("수정", for: .normal)
             memoTextView.becomeFirstResponder()
         } else {
-            self.title = "새로운 메모 생성하기"
+            self.title = "새로운 메모"
             memoTextView.text = "텍스트를 여기에 입력하세요."
             memoTextView.textColor = .lightGray
         }

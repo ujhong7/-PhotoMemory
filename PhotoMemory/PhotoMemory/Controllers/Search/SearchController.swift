@@ -109,6 +109,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
         detailViewController.memoData = current
         setNavi()
         navigationController?.pushViewController(detailViewController, animated: true)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: nil, action: nil)
     }
 }
 

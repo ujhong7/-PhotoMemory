@@ -30,7 +30,7 @@ class DetailPageViewController: UIViewController {
 //        navigationItem.rightBarButtonItem = editButton
         
         // 첫 번째 버튼
-        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+        let editButton = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(editButtonTapped))
         editButton.tintColor = .black
         
         // 두 번째 버튼
@@ -56,12 +56,14 @@ class DetailPageViewController: UIViewController {
               controller.memoData = selectedMemoData
           }
         navigationController?.pushViewController(controller, animated: true)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: nil, action: nil)
         print("DEBUG: plusButtonTapped")
     }
     
     @objc func plusButtonTapped() {
         let controller = PlusMemoryController(type: .createType, currentSelectedDate: currentSelectedDate)
         navigationController?.pushViewController(controller, animated: true)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: nil, action: nil)
         print("DEBUG: plusButtonTapped")
     }
     

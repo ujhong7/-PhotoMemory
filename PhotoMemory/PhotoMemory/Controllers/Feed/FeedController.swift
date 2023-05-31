@@ -106,9 +106,12 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         // TODO: - DetailViewController 띄우기 ⭐️
         let current = memoManager.getMemoListFromCoreData()[indexPath.row]
         let detailViewController = DetailViewController(memo: current)
+        
         detailViewController.memoData = current
         setNavi()
         navigationController?.pushViewController(detailViewController, animated: true)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: nil, action: nil)
+
     }
 }
     

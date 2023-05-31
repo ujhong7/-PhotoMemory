@@ -13,7 +13,7 @@ final class CalendarController: UIViewController {
     let memoManager = CoreDataManager.shared
     
     // MARK: - Properties
-    private lazy var scrollView = UIScrollView() // 작은화면에서도 잘리지 않고 잘 보였으면 해서 생성....?
+    private lazy var scrollView = UIScrollView()
     private lazy var contentView = UIView()
     private lazy var titleLabel = UILabel()
     private lazy var previousButton = UIButton()
@@ -103,7 +103,9 @@ final class CalendarController: UIViewController {
     private func configureTitleLabel() {
         contentView.addSubview(titleLabel)
         // titleLabel.text = "2000년 1월"
-        titleLabel.font = .monospacedSystemFont(ofSize: 18, weight: .bold)
+        // titleLabel.font = .monospacedSystemFont(ofSize: 18, weight: .bold)
+        // titleLabel.font = .systemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 20)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
@@ -178,6 +180,7 @@ final class CalendarController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: nil, action: nil)
     }
     
     private func configureCollectionView() {

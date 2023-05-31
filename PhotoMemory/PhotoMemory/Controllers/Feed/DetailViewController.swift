@@ -35,7 +35,6 @@ final class DetailViewController: UIViewController {
         textView.backgroundColor = .clear
         let textColor = UIColor.black
         textView.textColor = textColor
-
         textView.isEditable = false
         textView.alpha = 0.0
         textView.isHidden = true
@@ -91,7 +90,7 @@ final class DetailViewController: UIViewController {
     // MARK: - setup
     func setupPlusNaviBar() {
         // 네비게이션바 우측에 Plus 버튼 만들기
-        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+        let editButton = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(editButtonTapped))
         editButton.tintColor = .black
         navigationItem.rightBarButtonItem = editButton
     }
@@ -107,6 +106,7 @@ final class DetailViewController: UIViewController {
         let controller = PlusMemoryController(type: .editType, currentSelectedDate: nil)
         controller.memoData = self.memoData // ⭐️ 잘모르겠음..
         navigationController?.pushViewController(controller, animated: true)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: nil, action: nil)
         print("DEBUG: plusButtonTapped")
     }
         
