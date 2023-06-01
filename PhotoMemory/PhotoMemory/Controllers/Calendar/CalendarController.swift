@@ -282,22 +282,22 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
           }
         
         // 클릭한 셀에 데이터가 없는 경우
-        if filteredMemoList.isEmpty {
-            setNavi()
-            // 현재 내가 클릭한 날짜가 Date() 타입으로 만들어짐
-            let currentSelectedDate = stringToDate(day: "\(self.titleLabel.text!) \(days[indexPath.item])일")
-            
-            let noDataPageViewController = NoDataPageViewController() // NoDataPageViewController 객체를 생성한다
-            noDataPageViewController.currentSelectedDate = currentSelectedDate // 🔴 해당날짜값 넣어줘야하는데...
-            navigationController?.navigationBar.tintColor = .black
-            navigationController?.pushViewController(noDataPageViewController, animated: true)
-        } else {
+//        if filteredMemoList.isEmpty {
+//            setNavi()
+//            // 현재 내가 클릭한 날짜가 Date() 타입으로 만들어짐
+//            let currentSelectedDate = stringToDate(day: "\(self.titleLabel.text!) \(days[indexPath.item])일")
+//
+//            let noDataPageViewController = NoDataPageViewController() // NoDataPageViewController 객체를 생성한다
+//            noDataPageViewController.currentSelectedDate = currentSelectedDate // 🔴 해당날짜값 넣어줘야하는데...
+//            navigationController?.navigationBar.tintColor = .black
+//            navigationController?.pushViewController(noDataPageViewController, animated: true)
+//        } else {
             setNavi()
             let detailPageViewController = DetailPageViewController()
             detailPageViewController.memoDataArray = filteredMemoList
             navigationController?.navigationBar.tintColor = .black
             navigationController?.pushViewController(detailPageViewController, animated: true)
-        }
+//        }
     }
 }
 
