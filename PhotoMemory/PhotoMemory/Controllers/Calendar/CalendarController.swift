@@ -40,7 +40,7 @@ final class CalendarController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 뷰가 다시 나타날때, 테이블뷰를 리로드
-        // collectionView.reloadData()
+        // collectionView.reloadData() // 🔴
         // DetailViewController에서 tabBar지운거 다시 복원
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -293,11 +293,14 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
 //            navigationController?.pushViewController(noDataPageViewController, animated: true)
 //        } else {
             setNavi()
-            let detailPageViewController = DetailPageViewController()
-            detailPageViewController.memoDataArray = filteredMemoList
-            navigationController?.navigationBar.tintColor = .black
-            navigationController?.pushViewController(detailPageViewController, animated: true)
-//        }
+        let currentSelectedDate = stringToDate(day: "\(self.titleLabel.text!) \(days[indexPath.item])일") // 🔵
+        let detailPageViewController = DetailPageViewController()
+        detailPageViewController.currentSelectedDate = currentSelectedDate // 🔵
+        
+        detailPageViewController.memoDataArray = filteredMemoList
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.pushViewController(detailPageViewController, animated: true)
+        //        }
     }
 }
 
