@@ -10,16 +10,36 @@ import UIKit
 
 class FeedCell: UICollectionViewCell {
     var memoData: MemoData?
+    
+    var memoImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 3
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 0.5
+        imageView.layer.borderColor = UIColor.lightGray.cgColor
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
    
     // MARK: - LifeCycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        // 셀의 모서리를 라운드 처리합니다.
-        layer.cornerRadius = 3
-        layer.masksToBounds = true
-        layer.borderWidth = 0.5
-        layer.borderColor = UIColor.lightGray.cgColor
+        contentView.addSubview(memoImage)
+        NSLayoutConstraint.activate([
+            memoImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            memoImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            memoImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            memoImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+    }
+    
+    func configureMemoImage(_ image: UIImage) {
+        memoImage.image = image
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
     }
     
     required init?(coder: NSCoder) {

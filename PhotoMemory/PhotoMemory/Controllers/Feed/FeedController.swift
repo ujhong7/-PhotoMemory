@@ -15,19 +15,21 @@ class FeedController: UICollectionViewController {
     
     // MARK: - CoreData
     let memoManager = CoreDataManager.shared
+    var memoData = [MemoData]()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         setPlusButton()
+        memoData = memoManager.getMemoListFromCoreData()
     }
     
     // 델리게이트가 아닌 방식으로 구현할때는 화면 리프레시⭐️
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 뷰가 다시 나타날때, 테이블뷰를 리로드
-        collectionView.reloadData() // 🔴
+        //collectionView.reloadData() // 🔴
         // DetailViewController에서 tabBar지운거 다시 복원
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -75,15 +77,31 @@ class FeedController: UICollectionViewController {
 // MARK: - UICollectionViewDataSource
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return memoManager.getMemoListFromCoreData().count
+        return memoData.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
-        // 셀에 모델(MemoData) 전달
-        let memoData = memoManager.getMemoListFromCoreData()
-        cell.memoData = memoData[indexPath.row]
-        cell.backgroundView = UIImageView(image: UIImage(data: memoData[indexPath.row].photo!)!)
+        
+        loadImageAsync(data: memoData[indexPath.row].photo!) { image in
+            if let image = image {
+                cell.configureMemoImage(image)
+            }
+        }
         return cell
+    }
+    
+    func loadImageAsync(data: Data, completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global().async {
+            if let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
     }
 }
 
@@ -104,7 +122,8 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(#function)
         // TODO: - DetailViewController 띄우기 ⭐️
-        let current = memoManager.getMemoListFromCoreData()[indexPath.row]
+        let current = memoData[indexPath.row]
+        
         let detailViewController = DetailViewController(memo: current)
         
         detailViewController.memoData = current
