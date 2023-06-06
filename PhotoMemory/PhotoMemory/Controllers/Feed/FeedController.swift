@@ -6,7 +6,6 @@
 //
 
 import UIKit
-// import Kingfisher
 
 private let reuseIdentifier = "FeedCell" // ⭐️
 
@@ -22,7 +21,12 @@ class FeedController: UICollectionViewController {
         super.viewDidLoad()
         configureUI()
         setPlusButton()
+        addNotification()
         memoData = memoManager.getMemoListFromCoreData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // 델리게이트가 아닌 방식으로 구현할때는 화면 리프레시⭐️
@@ -63,6 +67,19 @@ class FeedController: UICollectionViewController {
         
         navigationController?.modalTransitionStyle = .partialCurl
         navigationController?.modalPresentationStyle = .fullScreen
+    }
+    
+    private func addNotification() {
+        // ⭐️⭐️⭐️ addObserver
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadFeedController),
+                                               name: NSNotification.Name(rawValue: "ReloadFeedController"),
+                                               object: nil)
+    }
+    
+    @objc func reloadFeedController() {
+        memoData = memoManager.getMemoListFromCoreData()
+        collectionView.reloadData()
     }
     
     // MARK: - Actions

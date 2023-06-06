@@ -129,6 +129,7 @@ class PlusMemoryController: UITableViewController {
                     print("저장완료👍")
                     // 다시 전화면으로 돌아가기
                     // ⭐️⭐️⭐️ post
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadFeedController"), object: nil)
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadCalendar"), object: nil)
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
