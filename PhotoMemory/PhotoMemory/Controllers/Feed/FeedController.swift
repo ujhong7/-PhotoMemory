@@ -14,7 +14,7 @@ class FeedController: UICollectionViewController {
     
     // MARK: - CoreData
     let memoManager = CoreDataManager.shared
-    var memoData = [MemoData]()
+    var memoListData = [MemoData]()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -22,7 +22,7 @@ class FeedController: UICollectionViewController {
         configureUI()
         setPlusButton()
         addNotification()
-        memoData = memoManager.getMemoListFromCoreData()
+        memoListData = memoManager.getMemoListFromCoreData()
     }
     
     deinit {
@@ -78,7 +78,7 @@ class FeedController: UICollectionViewController {
     }
     
     @objc func reloadFeedController() {
-        memoData = memoManager.getMemoListFromCoreData()
+        memoListData = memoManager.getMemoListFromCoreData()
         collectionView.reloadData()
     }
     
@@ -94,12 +94,12 @@ class FeedController: UICollectionViewController {
 // MARK: - UICollectionViewDataSource
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return memoData.count
+        return memoListData.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
         
-        loadImageAsync(data: memoData[indexPath.row].photo!) { image in
+        loadImageAsync(data: memoListData[indexPath.row].photo!) { image in
             if let image = image {
                 cell.configureMemoImage(image)
             }
@@ -139,7 +139,7 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(#function)
         // TODO: - DetailViewController 띄우기 ⭐️
-        let current = memoData[indexPath.row]
+        let current = memoListData[indexPath.row]
         
         let detailViewController = DetailViewController(memo: current)
         

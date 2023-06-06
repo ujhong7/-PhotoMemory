@@ -266,8 +266,9 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
         yearMonthFormatter.dateFormat =  "yyyy년 MM월"
         dayDateFormatter.dateFormat = "d"
         
-        let memoList = memoManager.getMemoListFromCoreData()
-        
+        // let memoList = memoManager.getMemoListFromCoreData()
+        let memoList = memo
+
         // true인 요소들만 새로운 배열에 저장되어 filteredMemoList 변수에 할당됩니다.
         let filteredMemoList = memoList.filter { memoData in
             if let savedDate = memoData.date, selectedDate == dayDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {

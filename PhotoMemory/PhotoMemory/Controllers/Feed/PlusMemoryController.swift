@@ -154,6 +154,7 @@ class PlusMemoryController: UITableViewController {
             }
             let alert = UIAlertController(title: nil, message: "메모가 삭제되었습니다.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default) { (action) in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadFeedController"), object: nil) // ⭐️
                 self.navigationController?.popToRootViewController(animated: true)
             }
             alert.addAction(okAction)
