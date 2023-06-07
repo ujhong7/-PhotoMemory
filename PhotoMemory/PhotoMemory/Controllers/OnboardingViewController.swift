@@ -106,6 +106,11 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @objc func startButtonTapped() {
+        
+        //  최초 실행 여부 UserDefaults에 저장
+        UserDefaults.standard.set(true, forKey: "isAppAlreadyLaunchedOnce")
+        UserDefaults.standard.synchronize()
+        
         // Perform transition to MainTabController
         let mainTabController = MainTabController()
         mainTabController.modalPresentationStyle = .fullScreen

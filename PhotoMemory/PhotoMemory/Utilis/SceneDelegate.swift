@@ -13,16 +13,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-       
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        // 메인화면 (루트뷰) 바꾸기
-        // window?.rootViewController = MainTabController() 
-        window?.rootViewController = OnboardingViewController()
-        
+
+        let isAppAlreadyLaunchedOnce = UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")
+        let rootViewController: UIViewController
+
+        if !isAppAlreadyLaunchedOnce {
+            // 최초 실행 시 온보딩 화면으로 이동
+            rootViewController = OnboardingViewController()
+        } else {
+            // 이미 실행된 경우 메인 화면으로 이동
+            rootViewController = MainTabController()
+        }
+
+        window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
-    
     }
+
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
