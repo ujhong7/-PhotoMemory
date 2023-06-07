@@ -58,6 +58,7 @@ final class CalendarController: UIViewController {
     }
     
     @objc private func reloadCalendar() {
+        fetchMemo()
         self.collectionView.reloadData()
     }
     
@@ -233,7 +234,7 @@ extension CalendarController: UICollectionViewDataSource, UICollectionViewDelega
                 if let savedDate = memoData.date, days[indexPath.item] == customDateFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate), self.titleLabel.text == yearMonthFormatter.string(from: savedDate) {
                     cell.existData()
                     
-                    fetchMemo()
+                    // fetchMemo()
                     
                     checkValue += 1
                 }
@@ -344,7 +345,7 @@ extension CalendarController {
             }
             self.days.append("\(day - startDayOfTheWeek + 1)")
         }
-        self.collectionView.reloadData()
+        // self.collectionView.reloadData()
     }
     
     private func minusMonth() {
