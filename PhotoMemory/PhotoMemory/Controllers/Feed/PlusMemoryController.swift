@@ -152,10 +152,11 @@ class PlusMemoryController: UITableViewController {
             self.memoManager.deleteToDo(data: self.memoData!) {
                 print("데이터 삭제 완료")
             }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadFeedController"), object: nil) // ⭐️
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadCalendar"), object: nil)
+            
             let alert = UIAlertController(title: nil, message: "메모가 삭제되었습니다.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default) { (action) in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadFeedController"), object: nil) // ⭐️
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadCalendar"), object: nil)
                 self.navigationController?.popToRootViewController(animated: true)
             }
             alert.addAction(okAction)
