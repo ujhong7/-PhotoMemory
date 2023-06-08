@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "venom-7.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "SC5.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
