@@ -99,26 +99,11 @@ extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
         
-        loadImageAsync(data: memoListData[indexPath.row].photo!) { image in
-            if let image = image {
-                cell.configureMemoImage(image)
-            }
+        if let image = UIImage(data: self.memoListData[indexPath.row].photo!) {
+            cell.configureMemoImage(image)
         }
+        
         return cell
-    }
-    
-    func loadImageAsync(data: Data, completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global().async {
-            if let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    completion(image)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
-        }
     }
 }
 
@@ -151,5 +136,18 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     }
 }
     
-
-
+//extension FeedController {
+//    func loadImageAsync(data: Data, completion: @escaping (UIImage?) -> Void) {
+//        DispatchQueue.global().async {
+//            if let image = UIImage(data: data) {
+//                DispatchQueue.main.async {
+//                    completion(image)
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    completion(nil)
+//                }
+//            }
+//        }
+//    }
+//}

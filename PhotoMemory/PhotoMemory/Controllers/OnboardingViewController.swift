@@ -39,20 +39,28 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
 
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 
     func createContentView(frame: CGRect, imageName: String) -> UIView {
         let contentView = UIView(frame: frame)
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        imageView.contentMode = .scaleAspectFill
+        //let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: imageName)
         contentView.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+        ])
 
         return contentView
     }
@@ -70,7 +78,7 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(pageControl)
         NSLayoutConstraint.activate([
             pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             pageControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             pageControl.widthAnchor.constraint(equalToConstant: view.bounds.width),
             pageControl.heightAnchor.constraint(equalToConstant: 50)
@@ -110,6 +118,7 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             startButton = UIButton(type: .system)
             startButton.translatesAutoresizingMaskIntoConstraints = false
             startButton.setTitle("시작하기", for: .normal)
+            startButton.layer.cornerRadius = 5
             startButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
             startButton.frame = CGRect(x: 20, y: view.bounds.height - 150, width: view.bounds.width - 40, height: 50)
 
@@ -120,10 +129,9 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             
             view.addSubview(startButton)
             NSLayoutConstraint.activate([
-                startButton.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0),
-                startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                startButton.widthAnchor.constraint(equalToConstant: view.bounds.width),
+                startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                startButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                startButton.widthAnchor.constraint(equalToConstant: view.bounds.width / 1.5),
                 startButton.heightAnchor.constraint(equalToConstant: 50)
             ])
         }
@@ -138,9 +146,13 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         UserDefaults.standard.set(true, forKey: "isAppAlreadyLaunchedOnce")
         UserDefaults.standard.synchronize()
 
+        // 권한설정을 해주고 클로저를 통해 VC Present 해주기
+        
         let mainTabController = MainTabController()
         mainTabController.modalPresentationStyle = .fullScreen
         present(mainTabController, animated: true, completion: nil)
+        
+        // completion handler
     }
 }
 

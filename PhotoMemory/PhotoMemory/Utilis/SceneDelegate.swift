@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             rootViewController = OnboardingViewController()
         } else {
             // 이미 실행된 경우 메인 화면으로 이동
-           //  rootViewController = MainTabController() // ⭐️
+             //rootViewController = MainTabController() // ⭐️
             rootViewController = OnboardingViewController() // TEST
         }
 

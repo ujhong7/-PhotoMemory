@@ -23,6 +23,7 @@ class CalendarCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        print("TEST CODE")
         // 셀의 서브 레이어를 순회하며 circleLayer 인스턴스를 찾아 삭제합니다.
         layer.sublayers?.forEach {
             if let circleLayer = $0 as? CAShapeLayer {
