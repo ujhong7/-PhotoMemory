@@ -92,11 +92,51 @@ class PlusMemoryController: UITableViewController {
     // MARK: - Actions
     @objc func photoSelect() {
         print(#function)
+        
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status == .authorized {
+            // 이미 접근 권한이 허용된 상태이므로 앨범에 접근할 수 있습니다.
+            showImagePicker()
+        } else if status == .denied || status == .restricted {
+            // 접근 권한이 거부되었거나 제한된 상태이므로 앨범 접근을 막습니다.
+            showAccessDeniedAlert()
+        } else if status == .notDetermined {
+            // 접근 권한을 요청하지 않았을 경우 권한을 요청합니다.
+            PHPhotoLibrary.requestAuthorization { [weak self] status in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        // 권한이 허용된 경우 앨범에 접근할 수 있습니다.
+                        self?.showImagePicker()
+                    } else {
+                        // 권한이 거부되었거나 제한된 상태이므로 앨범 접근을 막습니다.
+                        self?.showAccessDeniedAlert()
+                    }
+                }
+            }
+        }
+    }
+
+    private func showImagePicker() {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true
         present(picker, animated: true, completion: nil)
     }
+
+    private func showAccessDeniedAlert() {
+        let alertController = UIAlertController(title: "앨범 접근 거부", message: "앨범에 접근할 수 없습니다. 앱의 설정에서 앨범 접근 권한을 허용해주세요.", preferredStyle: .alert)
+        let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.open(settingsURL)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alertController.addAction(settingsAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
     
     @objc func dismissKeyboard() {
         view.endEditing(true)

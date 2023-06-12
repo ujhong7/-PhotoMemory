@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Photos
 
 class OnboardingViewController: UIViewController, UIScrollViewDelegate {
 
@@ -150,7 +151,19 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         
         let mainTabController = MainTabController()
         mainTabController.modalPresentationStyle = .fullScreen
-        present(mainTabController, animated: true, completion: nil)
+        present(mainTabController, animated: true, completion: {
+            PHPhotoLibrary.requestAuthorization { (status) in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        UserDefaults.standard.set(true, forKey: "isAlbumAccessAllowed")
+                    } else {
+                        UserDefaults.standard.set(false, forKey: "isAlbumAccessAllowed")
+                    }
+                    UserDefaults.standard.synchronize()
+                }
+            }
+        })
+
         
         // completion handler
     }
