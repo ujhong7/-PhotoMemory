@@ -62,6 +62,7 @@ class PlusMemoryController: UITableViewController {
 
     // (키보드 레이아웃) 애니메이션을 위한 속성
     var memoImageTopConstraint: NSLayoutConstraint!
+    var saveButtonBottomConstraint: NSLayoutConstraint!
     
     // MARK: - LifeCycle
     // ⭐️⭐️⭐️ 생성자 활용을 제대로 할 줄 알아야 데이터 넘기는 것이 편해진다.
@@ -221,6 +222,7 @@ class PlusMemoryController: UITableViewController {
     @objc func moveUpAction(){
         print(#function)
         memoImageTopConstraint.constant = -130
+        saveButtonBottomConstraint.constant = -130
           UIView.animate(withDuration: 0.2) {
               self.view.layoutIfNeeded()
           }
@@ -229,6 +231,7 @@ class PlusMemoryController: UITableViewController {
     @objc func moveDownAction(){
         print(#function)
         memoImageTopConstraint.constant = 130
+        saveButtonBottomConstraint.constant = 130
            UIView.animate(withDuration: 0.2) {
                self.view.layoutIfNeeded()
            }
@@ -264,12 +267,15 @@ class PlusMemoryController: UITableViewController {
             saveButton.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 10),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
-            saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
+//            saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
+            saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             saveButton.heightAnchor.constraint(equalToConstant: 40)
         ])
         memoImageTopConstraint = memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
+        saveButtonBottomConstraint = saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
         NSLayoutConstraint.activate([
             memoImageTopConstraint,
+            saveButtonBottomConstraint,
             view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
