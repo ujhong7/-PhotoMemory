@@ -30,6 +30,13 @@ class PlusMemoryController: UITableViewController {
    // var delegate: CalendarControllerDelegate?
     
     // MARK: - Properties
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var memoImage: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .clear
@@ -250,7 +257,7 @@ class PlusMemoryController: UITableViewController {
         view.addSubview(memoImage)
         NSLayoutConstraint.activate([
             memoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 20), // ⭐️
+            memoImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20), // ⭐️
             memoImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             memoImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             memoImage.heightAnchor.constraint(equalToConstant: 350)
@@ -271,7 +278,7 @@ class PlusMemoryController: UITableViewController {
             saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             saveButton.heightAnchor.constraint(equalToConstant: 40)
         ])
-        memoImageTopConstraint = memoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
+        memoImageTopConstraint = memoImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
         saveButtonBottomConstraint = saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
         NSLayoutConstraint.activate([
             memoImageTopConstraint,
