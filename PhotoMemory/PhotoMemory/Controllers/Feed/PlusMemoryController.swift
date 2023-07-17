@@ -305,9 +305,9 @@ class PlusMemoryController: UITableViewController {
     }
 
     // 다른 곳을 터치하면 키보드 내리기
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        view.endEditing(true)
+//    }
 }
 
 // MARK: - UITextViewDelegate

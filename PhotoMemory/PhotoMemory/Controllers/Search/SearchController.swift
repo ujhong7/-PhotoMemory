@@ -26,6 +26,7 @@ class SearchController: UIViewController, UISearchBarDelegate {
         super.viewDidLoad()
         configureSearchBar()
         configureCollectionView()
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +90,17 @@ class SearchController: UIViewController, UISearchBarDelegate {
         navigationController?.modalTransitionStyle = .partialCurl
         navigationController?.modalPresentationStyle = .overFullScreen
     }
-    // 검색중 화면 터치하면 키보드 내려가도록하기 !!! 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder() // 키보드를 내리기
+        searchBar.setShowsCancelButton(false, animated: true)
+        // 추가적으로 검색 결과 초기화 또는 다른 동작 수행
+    }
+ 
 }
 
 extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
